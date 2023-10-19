@@ -1,0 +1,43 @@
+import { Tabs } from "nextra/components";
+
+# Getting Started
+
+`anthropic-bedrock` is a typescript library for interacting with Anthropic's models on AWS Bedrock. It makes it really easy to use these models in production.
+
+## Installation
+
+Install `anthropic-bedrock` with your favorite package manager.
+
+<Tabs items={["pnpm", "npm", "yarn"]}>
+  <Tabs.Tab>**pnpm**: Fast, disk space efficient package manager.</Tabs.Tab>
+  <Tabs.Tab>```bash npm install anthropic-bedrock``` Hello world</Tabs.Tab>
+  <Tabs.Tab>**Yarn** is a software packaging system.</Tabs.Tab>
+</Tabs>
+
+## AWS Keys
+
+## Done!
+
+You are all ready to use the `anthropic-bedrock` Typescript SDK!
+
+```typescript
+import Anthropic from "anthropic-bedrock";
+
+const anthropic = new Anthropic({
+  access_key: process.env["AWS_ACCESS_KEY"],
+  secret_key: process.env["AWS_SECRET_KEY"],
+});
+
+async function main() {
+    const competion = await anthropic.Completion.crearte(
+        model: "anthropic.claude-v2",
+        prompt: "In one sentence, what is good about the color blue?"
+    )
+
+    console.log(completion.completion)
+}
+
+main();
+```
+
+Continue reading the docs to learn more about this SDK.

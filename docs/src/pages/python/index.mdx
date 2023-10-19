@@ -1,0 +1,36 @@
+# Get Started
+
+`bedrock-anthropic` is a typescript library for interacting with Anthropic's models on AWS Bedrock. It makes it really easy to use Anthropic's models in your application.
+
+## Installation
+
+Install `bedrock-anthropic` using pip.
+
+```bash
+pip install bedrock-anthropic
+```
+
+## AWS Keys
+
+## Done!
+
+You are all set to use the `bedrock-anthropic` Python SDK!
+
+```python
+import os
+from bedrock_anthropic import AnthropicBedrock
+
+anthropic = AnthropicBedrock(
+    access_key=os.getenv("AWS_ACCESS_KEY"),
+    secret_key=os.getenv("AWS_SECRET_KEY")
+)
+
+completion = anthropic.Completion.create(
+    model="anthropic.claude-v2",
+    prompt="In one sentence, what is good about the color blue?",
+)
+
+print(completion.completion)
+```
+
+Continue reading the docs to learn more about this SDK.

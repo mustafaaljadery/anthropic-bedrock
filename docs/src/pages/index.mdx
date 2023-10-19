@@ -1,1 +1,94 @@
-# Anthropic Bedrock
+<div className="flex flex-col justify-center items-center w-full mt-12">
+  <h1 className="text-6xl font-bold text-[#363636]">Anthropic Bedrock</h1>
+</div>
+
+<div className="flex flex-col justify-center items-center mt-4 text-xl text-gray-400 font-medium">
+  SDKs for Anthropic on AWS Bedrock
+</div>
+
+<div className="flex mt-4 text-sm font-medium text-gray-600 flex-row justify-center space-x-1 items-center">
+  <p>By</p>
+  <a
+    href="https://www.maxaljadery.com/"
+    target="_blank"
+    className="text-blue-700 hover:opacity-80"
+  >
+    Mustafa Aljadery
+  </a>
+  <p>&</p>
+  <a
+    href="https://stanford.edu/~sidshr/"
+    target="_blank"
+    className="text-blue-700 hover:opacity-80"
+  >
+    Siddharth Sharma
+  </a>
+</div>
+
+There are two SDKs, one for Python and the other for NodeJS. The goal is to make it extremely easy to build using Anthropic's models. Anthropic's models have amazing features not avaiable in other models, and example is the 100k context length. You can upload an entire book to Claude and chat with it.
+
+<div>
+  <button>Python SDK</button>
+</div>
+
+## Features
+
+This SDK supports all of these features out the box:
+
+- Text completion
+- Chat with context history
+- Count tokens & estimate price
+- Streaming
+- Async functions
+
+## Python Overview
+
+In this example we use the Python SDK to
+
+```python
+import os
+from bedrock_anthropic import AnthropicBedrock
+
+anthropic = AnthropicBedrock(
+    access_key=os.getenv("AWS_ACCESS_KEY"),
+    secret_key=os.getenv("AWS_SECRET_KEY")
+)
+
+completion = anthropic.Completion.create(
+    model="anthropic.claude-v2",
+    prompt="In one sentence, what is good about the color blue?",
+)
+
+print(completion.completion)
+```
+
+## Typescript Overview
+
+In this example we use the Typescript SDK to get started with Claude 2 on AWS Bedrock.
+
+```typescript
+import Anthropic from "anthropic-bedrock";
+
+const anthropic = new Anthropic({
+  access_key: process.env["AWS_ACCESS_KEY"],
+  secret_key: process.env["AWS_SECRET_KEY"],
+});
+
+async function main() {
+    const competion = await anthropic.Completion.crearte(
+        model: "anthropic.claude-v2",
+        prompt: "In one sentence, what is good about the color blue?"
+    )
+
+    console.log(completion.completion)
+}
+
+main();
+```
+
+## Credits
+
+Check out the following for updates:
+
+- Follow [Mustafa](https://twitter.com/maxaljadery) & [Sid](https://twitter.com/siddrrsh) on Twitter for updates.
+- Contribute on [GitHub](https://github.com/mustafaaljadery/anthropic-bedrock).
