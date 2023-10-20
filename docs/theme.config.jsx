@@ -55,4 +55,50 @@ export default {
   project: {
     link: "https://github.com/mustafaaljadery/anthropic-bedrock",
   },
+  primaryHue: 19,
+  primarySaturation: 47,
+  footer: {
+    text: (
+      <span className="text-sm">
+        MIT {new Date().getFullYear()} ©{" "}
+        <a
+          className="text-blue-700 hover:opacity-80"
+          href="https://maxaljadery.com"
+          target="_blank"
+        >
+          Mustafa Aljadery
+        </a>{" "}
+        &{" "}
+        <a
+          className="text-blue-700 hover:opacity-80"
+          href="https://stanford.edu/~sidshr/"
+          target="_blank"
+        >
+          Siddharth Sharma
+        </a>
+        . Models are by{" "}
+        <a
+          className="text-blue-700 hover:opacity-80"
+          href="https://www.anthropic.com/"
+          target="_blank"
+        >
+          Anthropic
+        </a>
+        , served on{" "}
+        <a
+          className="text-blue-700 hover:opacity-80"
+          href="https://aws.amazon.com/bedrock/"
+          target="_blank"
+        >
+          AWS Bedrock
+        </a>
+        .
+      </span>
+    ),
+  },
+  useNextSeoProps() {
+    return {
+      titleTemplate: "%s – Anthropic Bedrock",
+    };
+  },
 };

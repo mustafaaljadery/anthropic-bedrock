@@ -1,0 +1,60 @@
+# Error Handling
+
+Primarily, errors happen when the library is unable to connect to the API (from network connection problems).
+
+## Catching Errors
+
+```typescript
+async function main() {
+  const completion = await anthropic.Completion
+    .create({
+      model: "anthropic.claude-v2",
+      prompt="Why is the sky blue?"
+      max_tokens_to_sample: 256,
+    })
+    .catch((e) => {
+      console.log(err.status);
+      console.log(err.name);
+      console.log(err.headers);
+    });
+}
+main().catch(console.error);
+```
+
+## Retries
+
+```typescript
+new AnthropicBedrock({
+  maxRetries: 3, // default is 2
+});
+```
+
+## Timeouts
+
+By default requests timeout after a minute, however you can adjust the timeout option. This could be useful when maxing out the context length.
+
+```typescript
+await anthropic.Completion.create(
+  {
+    prompt = "Why is the sky blue?",
+    max_tokens_to_sample: 300,
+    model: "anthropic.claude-v2",
+  },
+  {
+    timeout: 5 * 1000, // 5 seconds
+  }
+);
+```
+
+## Error Codes
+
+| Status Code | Error Type                 |
+| ----------- | -------------------------- |
+| 400         | `BadRequestError`          |
+| 401         | `AuthenticationError`      |
+| 403         | `PermissionDeniedError`    |
+| 404         | `NotFoundError`            |
+| 422         | `UnprocessableEntityError` |
+| 429         | `RateLimitError`           |
+| >=500       | `InternalServerError`      |
+| N/A         | `APIConnectionError`       |

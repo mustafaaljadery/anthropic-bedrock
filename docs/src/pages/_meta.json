@@ -10,5 +10,9 @@
   "typescript": {
     "title": "Typescript",
     "type": "page"
+  },
+  "examples": {
+    "title": "Examples",
+    "type": "page"
   }
 }

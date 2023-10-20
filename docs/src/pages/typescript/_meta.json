@@ -1,0 +1,12 @@
+{
+  "index": "Getting Started",
+  "client": "Client",
+  "models": "Models",
+  "completion": "Completion",
+  "chat": "Chat",
+  "count-tokens": "Count Tokens",
+  "streaming": "Streaming",
+  "error-handling": "Error Handling",
+  "faq": "FAQ",
+  "contact": "Contact"
+}

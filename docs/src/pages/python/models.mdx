@@ -1,0 +1,84 @@
+# Models
+
+Anthropic offers a variety of differnet models depending on your needs. Pick the model that works best for you!
+
+## anthropic.claude-v1
+
+This is the earliest version of Anthropic's general purpose LLMs.
+
+### Max Tokens
+
+100k
+
+### Usage
+
+```python {10}
+import os
+from bedrock_anthropic import AnthropicBedrock
+
+anthropic = AnthropicBedrock(
+    access_key=os.getenv("AWS_ACCESS_KEY"),
+    secret_key=os.getenv("AWS_SECRET_KEY")
+)
+
+completion = anthropic.Completion.create(
+    model="anthropic.claude-v1",
+    prompt="Why is the sky blue?"
+)
+
+print(completion.completion)
+```
+
+## anthropic.claude-v2
+
+Anthropic's most powerful model, which excels at a wide range of tasks from sophisticated dialogue and creative content generation to detailed instruction following.
+
+### Max Tokens
+
+100k
+
+### Usage
+
+```python {10}
+import os
+from bedrock_anthropic import AnthropicBedrock
+
+anthropic = AnthropicBedrock(
+    access_key=os.getenv("AWS_ACCESS_KEY"),
+    secret_key=os.getenv("AWS_SECRET_KEY")
+)
+
+completion = anthropic.Completion.create(
+    model="anthropic.claude-v2",
+    prompt="Why is the sky blue?"
+)
+
+print(completion.completion)
+```
+
+## anthropic.claude-instant-v1
+
+A faster and cheaper yet still very capable model, which can handle a range of tasks including casual dialogue, text analysis, summarization, and document question-answering.
+
+### Max Tokens
+
+100k
+
+### Usage
+
+```python {10}
+import os
+from bedrock_anthropic import AnthropicBedrock
+
+anthropic = AnthropicBedrock(
+    access_key=os.getenv("AWS_ACCESS_KEY"),
+    secret_key=os.getenv("AWS_SECRET_KEY")
+)
+
+completion = anthropic.Completion.create(
+    model="anthropic.claude-instant-v1",
+    prompt="Why is the sky blue?"
+)
+
+print(completion.completion)
+```

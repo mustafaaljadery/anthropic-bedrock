@@ -1,8 +1,10 @@
 <div className="flex flex-col justify-center items-center w-full mt-12">
-  <h1 className="text-6xl font-bold text-[#363636]">Anthropic Bedrock</h1>
+  <h1 className="text-6xl text-center font-bold text-[#363636]">
+    Anthropic Bedrock
+  </h1>
 </div>
 
-<div className="flex flex-col justify-center items-center mt-4 text-xl text-gray-400 font-medium">
+<div className="flex text-center flex-col justify-center items-center mt-4 text-xl text-gray-400 font-medium">
   SDKs for Anthropic on AWS Bedrock
 </div>
 
@@ -67,15 +69,15 @@ print(completion.completion)
 In this example we use the Typescript SDK to get started with Claude 2 on AWS Bedrock.
 
 ```typescript
-import Anthropic from "anthropic-bedrock";
+import AnthropicBedrock from "anthropic-bedrock";
 
-const anthropic = new Anthropic({
+const anthropic = new AnthropicBedrock({
   access_key: process.env["AWS_ACCESS_KEY"],
   secret_key: process.env["AWS_SECRET_KEY"],
 });
 
 async function main() {
-    const competion = await anthropic.Completion.crearte(
+    const completion = await anthropic.Completion.crearte(
         model: "anthropic.claude-v2",
         prompt: "In one sentence, what is good about the color blue?"
     )

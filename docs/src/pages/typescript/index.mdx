@@ -1,4 +1,4 @@
-import { Tabs } from "nextra/components";
+import { Tabs, Tab } from "nextra/components";
 
 # Getting Started
 
@@ -8,30 +8,48 @@ import { Tabs } from "nextra/components";
 
 Install `anthropic-bedrock` with your favorite package manager.
 
-<Tabs items={["pnpm", "npm", "yarn"]}>
-  <Tabs.Tab>**pnpm**: Fast, disk space efficient package manager.</Tabs.Tab>
-  <Tabs.Tab>```bash npm install anthropic-bedrock``` Hello world</Tabs.Tab>
-  <Tabs.Tab>**Yarn** is a software packaging system.</Tabs.Tab>
+<Tabs items={["npm", "pnpm", "yarn"]}>
+  {/* prettier-ignore */}
+  <Tab>
+```bash
+npm i anthropic-bedrock
+```
+    </Tab>
+  {/* prettier-ignore */}
+  <Tab>
+```bash
+pnpm i anthropic-bedrock 
+```
+    </Tab>
+  {/* prettier-ignore */}
+  <Tab>
+```bash
+yarn add anthropic-bedrock 
+```
+    </Tab>
 </Tabs>
 
 ## AWS Keys
+
+To be written!
 
 ## Done!
 
 You are all ready to use the `anthropic-bedrock` Typescript SDK!
 
 ```typescript
-import Anthropic from "anthropic-bedrock";
+import AnthropicBedrock from "anthropic-bedrock";
 
-const anthropic = new Anthropic({
+const anthropic = new AnthropicBedrock({
   access_key: process.env["AWS_ACCESS_KEY"],
   secret_key: process.env["AWS_SECRET_KEY"],
 });
 
 async function main() {
-    const competion = await anthropic.Completion.crearte(
+    const completion = await anthropic.Completion.crearte(
         model: "anthropic.claude-v2",
-        prompt: "In one sentence, what is good about the color blue?"
+        prompt: "In one sentence, what is good about the color blue?",
+        max_tokens_to_sample: 300
     )
 
     console.log(completion.completion)

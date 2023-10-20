@@ -1,0 +1,29 @@
+# Count Tokens
+
+The `countTokens` function allows you to count the number of tokens your prompt uses.
+
+## Usage
+
+```typescript
+import { countTokens } from "anthropic-bedrock";
+
+function main() {
+  const text = "Hello World!";
+  const tokens = countTokens(text);
+  console.log(tokens);
+}
+
+main();
+```
+
+## Configuration
+
+### text
+
+The text you want to count the tokens for.
+
+```typescript {3}
+import { countTokens } from "anthropic-bedrock";
+
+const tokens = countTokens("Hello World!");
+```

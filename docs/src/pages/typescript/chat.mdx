@@ -1,0 +1,159 @@
+# Chat
+
+The `ChatCompletion` endpoint allows you to have a chat conversation with a model.
+
+```typescript
+const chat = await anthropic.ChatCompletion.create({
+  messages: [
+    { role: "system", content: "You are a helpful assistant." },
+    { role: "user", content: "Hello!" },
+  ],
+  model: "anthropic.claude-v2",
+  max_tokens_to_sample: 300,
+});
+
+console.log(chat.messages);
+```
+
+## Usage
+
+```typescript
+import AnthropicBedrock from "anthropic-bedrock";
+
+const anthropic = new AnthropicBedrock({
+  access_key: process.env["AWS_ACCESS_KEY"],
+  secret_key: process.env["AWS_SECRET_KEY"],
+});
+
+async function main() {
+  const chat = await anthropic.ChatCompletion.create({
+    messages: [
+      { role: "system", content: "You are a helpful assistant." },
+      { role: "user", content: "Hello!" },
+    ],
+    model: "anthropic.claude-v2",
+    max_tokens_to_sample: 300,
+  });
+
+  console.log(chat.messages);
+}
+
+main();
+```
+
+## Configuration
+
+### model
+
+The model that will complete your prompt.
+
+```typescript {2}
+const chat = await anthropic.ChatCompletion.create({
+  model: "anthropic.claude-v2",
+  max_tokens_to_sample: 300,
+  messages: [
+    { role: "system", content: "You are a helpful assistant." },
+    { role: "user", content: "Hello!" },
+  ],
+});
+```
+
+### messages
+
+The messages of the conversation
+
+```typescript {4-7}
+const chat = await anthropic.ChatCompletion.create({
+  model: "anthropic.claude-v2",
+  max_tokens_to_sample: 300,
+  messages: [
+    { role: "system", content: "You are a helpful assistant." },
+    { role: "user", content: "Hello!" },
+  ],
+});
+```
+
+### max_tokens_to_sample
+
+The maximum number of tokens to generate before stopping.
+
+```typescript {3}
+const chat = await anthropic.ChatCompletion.create({
+  model: "anthropic.claude-v2",
+  max_tokens_to_sample: 300,
+  messages: [
+    { role: "system", content: "You are a helpful assistant." },
+    { role: "user", content: "Hello!" },
+  ],
+});
+```
+
+### stop_sequences (optional)
+
+Sequences that will cause the model to stop generating completion text.
+
+```typescript {8}
+const chat = await anthropic.ChatCompletion.create({
+  model: "anthropic.claude-v2",
+  max_tokens_to_sample: 300,
+  messages: [
+    { role: "system", content: "You are a helpful assistant." },
+    { role: "user", content: "Hello!" },
+  ],
+  stop_sequences: ["sequence"],
+});
+```
+
+### temperature (optional)
+
+Amount of randomness injected in the response. 0-1
+
+_Note: you can either use temperature, top p, or top k._
+
+```typescript {4}
+const chat = await anthropic.ChatCompletion.create({
+  model: "anthropic.claude-v2",
+  max_tokens_to_sample: 300,
+  temperature: 0.7,
+  messages: [
+    { role: "system", content: "You are a helpful assistant." },
+    { role: "user", content: "Hello!" },
+  ],
+});
+```
+
+### top_p (optional)
+
+Use nucleus sampling. 0-1
+
+_Note: you can either use temperature, top p, or top k._
+
+```typescript {4}
+const chat = await anthropic.ChatCompletion.create({
+  model: "anthropic.claude-v2",
+  max_tokens_to_sample: 300,
+  top_p: 0.7,
+  messages: [
+    { role: "system", content: "You are a helpful assistant." },
+    { role: "user", content: "Hello!" },
+  ],
+});
+```
+
+### top_k (optional)
+
+Only sample from the top K options for each subsequent token. 0-1
+
+_Note: you can either use temperature, top p, or top k._
+
+```typescript {4}
+const chat = await anthropic.ChatCompletion.create({
+  model: "anthropic.claude-v2",
+  max_tokens_to_sample: 300,
+  top_k: 0.7,
+  messages: [
+    { role: "system", content: "You are a helpful assistant." },
+    { role: "user", content: "Hello!" },
+  ],
+});
+```

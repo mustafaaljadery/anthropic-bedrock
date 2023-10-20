@@ -1,0 +1,29 @@
+# Count Tokens
+
+The `tokens` function allows you to count the number of tokens your prompt uses.
+
+```python
+anthropic.tokens("Hello World!")
+```
+
+## Usage
+
+```python
+from bedrock_anthropic import AnthropicBedrock
+
+anthropic = AnthropicBedrock()
+
+print(anthropic.tokens("Hello World!")) # 3
+```
+
+## Configuration
+
+### text
+
+The text you want to count the tokens for.
+
+```python {3}
+anthropic = AnthropicBedrock()
+
+anthropic.tokens("Hello world!")
+```

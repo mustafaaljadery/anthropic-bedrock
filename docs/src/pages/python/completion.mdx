@@ -1,38 +1,33 @@
-# Async
+# Completion
 
-The `Async` endpoint allows you to run anthropic functions concurrently. All other features are the same as sync execution.
+The `Completion` endpoint allows you to give a prompt to an Anthropic LLM and get a respnose.
 
 ```python
-completion = await anthropic.Completion.create(
-    model="anthropic.claude-v2",
-    prompt="Why is the sky blue?",
-    max_tokens_to_sample=300
+anthropic.Completion.create(
+  model="gpt-3.5-turbo-instruct",
+  prompt="Why is the sky blue?"
+  max_tokens_to_sample=300
 )
-
-print(completion.completion)
 ```
 
 ## Usage
 
 ```python
 import os
-from bedrock_anthropic import AsyncAnthropicBedrock
+from bedrock_anthropic import AnthropicBedrock
 
-anthropic = AsyncAnthropicBedrock(
+anthropic = AnthropicBedrock(
     access_key=os.getenv("AWS_ACCESS_KEY"),
     secret_key=os.getenv("AWS_SECRET_KEY")
 )
 
-async def main():
-    completion = await anthropic.Completion.create(
-        model="anthropic.claude-v2",
-        max_tokens_to_sample=300,
-        prompt="Why is the sky blue?"
-    )
-    print(completion.completion)
+completion = anthropic.Completion.create(
+    model="anthropic.claude-v2",
+    prompt="Why is the sky blue?",
+    max_tokens_to_sample=300
+)
 
-
-asyncio.run(main())
+print(completion.completion)
 ```
 
 ## Configuration

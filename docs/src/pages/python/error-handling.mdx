@@ -1,0 +1,67 @@
+# Error Handling
+
+Primarily, errors happen when the library is unable to connect to the API (from network connection problems).
+
+## Catching Errors
+
+```python
+from bedrock_anthropic import AnthropicBedrock
+
+anthropic = AnthropicBedrock(
+    access_key=os.getenv("AWS_ACCESS_KEY"),
+    secret_key=os.getenv("AWS_SECRET_KEY")
+)
+
+try:
+    completion = anthropic.Completion.create(
+        model="anthropic.claude-v2",
+        prompt="Why is the sky blue?",
+        max_tokens_to_sample=300
+    )
+except anthropic_bedrock.APIConnectionError as e:
+    print("The server could not be reached")
+except anthropic_bedrock.RateLimitError as e:
+    print("A 429 status code was received; we should back off a bit.")
+except anthropic_bedrock.APIStatusError as e:
+    print("Another non-200-range status code was received")
+```
+
+## Retries
+
+```python
+from bedrock_anthropic import AnthropicBedrock
+
+anthropic = AnthropicBedrock(
+    # The defult is 2
+    max_retries=3,
+    access_key=os.getenv("AWS_ACCESS_KEY"),
+    secret_key=os.getenv("AWS_SECRET_KEY")
+)
+```
+
+## Timeouts
+
+By default requests timeout after a minute, however you can adjust the timeout option. This could be useful when maxing out the context length.
+
+```python
+from bedrock_anthropic import AnthropicBedrock
+
+anthropic = AnthropicBedrock(
+    timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
+    access_key=os.getenv("AWS_ACCESS_KEY"),
+    secret_key=os.getenv("AWS_SECRET_KEY")
+)
+```
+
+## Error Codes
+
+| Status Code | Error Type                 |
+| ----------- | -------------------------- |
+| 400         | `BadRequestError`          |
+| 401         | `AuthenticationError`      |
+| 403         | `PermissionDeniedError`    |
+| 404         | `NotFoundError`            |
+| 422         | `UnprocessableEntityError` |
+| 429         | `RateLimitError`           |
+| >=500       | `InternalServerError`      |
+| N/A         | `APIConnectionError`       |
