@@ -1,0 +1,30 @@
+[project]
+name = "bedrock_anthropic"
+version = "0.0.1"
+description = "Client library for the anthropic API with the AWS Bedrock endpoint."
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+{ name = "Mustafa Aljadery", email = "aljadery@usc.edu" },
+{ name = "Siddharth Sharma", email = "sidshr@stanford.edu" },
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+]
+keywords = ["Anthropic", 
+      "LLM", 
+      "Bedrock",
+      "Claude",]
+requires-python = ">= 3.7"
+dependencies = ["httpx", "tokenizers", "boto3", "pathlib", "typing"]
+
+[project.urls]
+Homepage = "https://github.com/mustafaaljadery/anthropic-bedrock"
+Repository = "https://github.com/mustafaaljadery/anthropic-bedrock"
+
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
