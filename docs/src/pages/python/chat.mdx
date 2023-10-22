@@ -40,7 +40,7 @@ print(chat.messages)
 
 ### model
 
-The model that will complete your prompt.
+The model that will complete your prompt. Refer to the models [page](/python/models).
 
 ```python {2}
 anthropic.ChatCompletion.create(
@@ -55,7 +55,7 @@ anthropic.ChatCompletion.create(
 
 ### messages
 
-The messages to chat with the model
+The messages to chat with the model.
 
 ```python {4-7}
 anthropic.ChatCompletion.create(
@@ -68,9 +68,12 @@ anthropic.ChatCompletion.create(
 )
 ```
 
-### max_tokens_to_sample
+### max_tokens_to_sample (optional)
 
 The maximum number of tokens to generate before stopping.
+
+- Default: `256`
+- Range depends on the model, refer to the [models page](/python/models).
 
 ```python {3}
 
@@ -88,6 +91,8 @@ anthropic.ChatCompletion.create(
 
 Sequences that will cause the model to stop generating completion text.
 
+- Default: `[]`
+
 ```python {8-10}
 anthropic.ChatCompletion.create(
     model="anthropic.claude-v2",
@@ -104,9 +109,10 @@ anthropic.ChatCompletion.create(
 
 ### temperature (optional)
 
-Amount of randomness injected in the response. 0-1
+Amount of randomness injected in the response.
 
-_Note: you can either use temperature, top p, or top k._
+- Default: `1`
+- Range: `0-1`
 
 ```python {8}
 anthropic.ChatCompletion.create(
@@ -122,9 +128,10 @@ anthropic.ChatCompletion.create(
 
 ### top_p (optional)
 
-Use nucleus sampling. 0-1
+Use nucleus sampling.
 
-_Note: you can either use temperature, top p, or top k._
+- Default: `1`
+- Range: `0-1`
 
 ```python {8}
 anthropic.ChatCompletion.create(
@@ -140,9 +147,10 @@ anthropic.ChatCompletion.create(
 
 ### top_k (optional)
 
-Only sample from the top K options for each subsequent token. 0-1
+Only sample from the top K options for each subsequent token.
 
-_Note: you can either use temperature, top p, or top k._
+- Default: `250`
+- Range: `0-500`
 
 ```python {8}
 anthropic.ChatCompletion.create(

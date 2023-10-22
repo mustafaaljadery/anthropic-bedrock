@@ -4,7 +4,7 @@ The `Completion` endpoint allows you to give a prompt to an Anthropic LLM and ge
 
 ```python
 anthropic.Completion.create(
-  model="gpt-3.5-turbo-instruct",
+  model="anthropic.claude-v2",
   prompt="Why is the sky blue?"
   max_tokens_to_sample=300
 )
@@ -27,14 +27,14 @@ completion = anthropic.Completion.create(
     max_tokens_to_sample=300
 )
 
-print(completion.completion)
+print(completion["completion"])
 ```
 
 ## Configuration
 
 ### model
 
-The model that will complete your prompt.
+The model that will complete your prompt. Refer to the models [page](/python/models).
 
 ```python {2}
 anthropic.Completion.create(
@@ -48,6 +48,8 @@ anthropic.Completion.create(
 
 The prompt you want to use.
 
+- Type: `str`
+
 ```python {3}
 anthropic.Completion.create(
     model="anthropic.claude-v2",
@@ -56,9 +58,12 @@ anthropic.Completion.create(
 )
 ```
 
-### max_tokens_to_sample
+### max_tokens_to_sample (optional)
 
 The maximum number of tokens to generate before stopping.
+
+- Default: `256`
+- Range depends on the model, refer to the [models page](/python/models).
 
 ```python {4}
 anthropc.Completion.create(
@@ -71,6 +76,8 @@ anthropc.Completion.create(
 ### stop_sequences (optional)
 
 Sequences that will cause the model to stop generating completion text.
+
+- Default: `[]`
 
 ```python {5-7}
 anthropic.Completion.create(
@@ -85,9 +92,10 @@ anthropic.Completion.create(
 
 ### temperature (optional)
 
-Amount of randomness injected in the response. 0-1
+Amount of randomness injected in the response.
 
-_Note: you can either use temperature, top p, or top k._
+- Default: `1`
+- Range: `0-1`
 
 ```python {5}
 anthropic.Completion.create(
@@ -100,9 +108,10 @@ anthropic.Completion.create(
 
 ### top_p (optional)
 
-Use nucleus sampling. 0-1
+Use nucleus sampling.
 
-_Note: you can either use temperature, top p, or top k._
+- Default: `1`
+- Range: `0-1`
 
 ```python {5}
 anthropic.Completion.create(
@@ -115,15 +124,16 @@ anthropic.Completion.create(
 
 ### top_k (optional)
 
-Only sample from the top K options for each subsequent token. 0-1
+Only sample from the top K options for each subsequent token.
 
-_Note: you can either use temperature, top p, or top k._
+- Default: `250`
+- Range: `0-500`
 
 ```python {5}
 anthropic.Completion.create(
     model="anthropic.claude-v2",
     prompt="Why is the sky blue?",
     max_tokens_to_sample=300,
-    top_k=0.7
+    top_k=250
 )
 ```

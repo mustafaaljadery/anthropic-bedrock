@@ -1,3 +1,5 @@
+import { Tabs, Tab } from "nextra/components";
+
 # Get Started
 
 `bedrock-anthropic` is a typescript library for interacting with Anthropic's models on AWS Bedrock. It makes it really easy to use Anthropic's models in your application.
@@ -10,9 +12,38 @@ Install `bedrock-anthropic` using pip.
 pip install bedrock-anthropic
 ```
 
-## AWS Keys
+## Authentication
 
-To be written.
+<Tabs items={["Access & Secret Keys", "AWS CLI", ""]}>
+    <Tab>
+    This is the preferred way to use this SDK. Learn more about how you can get your access key and secrey key [here](/python/client).
+
+    ```python
+    import os
+    from bedrock_anthropic import AnthropicBedrock
+
+    anthropic = AnthropicBedrock(
+        access_key=os.getenv("AWS_ACCESS_KEY"),
+        secret_key=os.getenv("AWS_SECRET_KEY")
+    )
+    ```
+    </Tab>
+
+    <Tab>
+    In this method, your credentials are already provided by the AWS CLI. Read more about it [here](/python/client).
+
+    ```python
+    from bedrock_anthropic import AnthropicBedrock
+
+    anthropic = AnthropicBedrock()
+    ```
+    </Tab>
+
+    <Tab>
+
+    </Tab>
+
+</Tabs>
 
 ## Done!
 

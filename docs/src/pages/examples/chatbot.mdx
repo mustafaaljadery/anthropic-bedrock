@@ -1,3 +1,102 @@
+import { Tabs, Tab } from "nextra/components";
+
 # Chatbot
 
-To be written
+This is a basic example of using the `ChatCompletion` endpoint. It allows us to create a chatbot that chats back to us.
+
+## Installing SDK
+
+<Tabs items={["Python", "Typescript"]}>
+    <Tab>
+    Install using pip.
+
+    ```bash copy
+    pip install bedrock_anthropic
+    ```
+
+    </Tab>
+
+    <Tab>
+    Install using npm.
+
+    ```bash copy
+    npm install anthropic-bedrock
+    ```
+
+    Install using yarn.
+
+    ```bash copy
+    yarn add anthropic-bedrock
+    ```
+
+    Install using pnpm.
+
+    ```bash copy
+    pnpm add anthropic-bedrock
+    ```
+    </Tab>
+
+</Tabs>
+
+## Example
+
+A simple example of using the `ChatCompletion` endpoint.
+
+<Tabs items={["Python", "Typescript"]}>
+    <Tab>
+
+    ```python copy
+    import os
+    from bedrock_anthropic import AnthropicBedrock
+
+    anthropic = AnthropicBedrock(
+        access_key=os.getenv("AWS_ACCESS_KEY"),
+        secret_key=os.getenv("AWS_SECRET_KEY")
+    )
+
+    chat = anthropic.ChatCompletion.create(
+        model="anthropic.claude-v2",
+        max_tokens_to_sample=300,
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": "Hello!"}
+        ]
+    )
+
+    print(chat.messages)
+    ```
+    </Tab>
+
+    <Tab>
+
+    ```typescript copy
+    import AnthropicBedrock from "anthropic-bedrock";
+
+    const anthropic = new AnthropicBedrock({
+        access_key: process.env["AWS_ACCESS_KEY"],
+        secret_key: process.env["AWS_SECRET_KEY"]
+    })
+
+    async function main() {
+        const chat = await anthropic.ChatCompletion.create({
+            messages: [
+                { role: "system", content: "You are a helpful assistant." },
+                { role: "user", content: "Hello!" },
+            ],
+            model: "anthropic.claude-v2",
+            max_tokens_to_sample: 300,
+        });
+        console.log(chat.messages);
+    }
+
+    main();
+    ```
+    </Tab>
+
+</Tabs>
+
+## Response
+
+```markdown
+
+```

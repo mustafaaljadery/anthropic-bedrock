@@ -1,3 +1,146 @@
+import { Tabs, Tab } from "nextra/components";
+
 # Summarization
 
-To be written
+This is an example of using the `Completion` endpoint for text summarization.
+
+## Installing SDK
+
+<Tabs items={["Python", "Typescript"]}>
+    <Tab>
+    Install using pip.
+
+    ```bash copy
+    pip install bedrock_anthropic
+    ```
+    </Tab>
+
+    <Tab>
+    Install using npm.
+
+    ```bash copy
+    npm install anthropic-bedrock
+    ```
+
+    Install using yarn.
+
+    ```bash copy
+    yarn add anthropic-bedrock
+    ```
+
+    Install using pnpm.
+
+    ```bash copy
+    pnpm add anthropic-bedrock
+    ```
+    </Tab>
+
+</Tabs>
+
+## Example
+
+An example of using the `Completion` endpoint to summarize text.
+
+<Tabs items={["Python", "Typescript"]}>
+    <Tab>
+    ```python copy
+    import os 
+    from bedrock_anthropic import AnthropicBedrock
+
+    anthropic = AnthropicBedrock(
+        access_key=os.getenv("AWS_ACCESS_KEY"),
+        secret_key=os.getenv("AWS_SECRET_KEY")
+    )
+
+    prompt = """Please provide a summary of the following text.
+
+    <text>
+    AWS took all of that feedback from customers, and today we are excited to
+    announce Amazon Bedrock, \ a new service that makes FMs from AI21 Labs,
+    Anthropic, Stability AI, and Amazon accessible via an API. \ Bedrock is the
+    easiest way for customers to build and scale generative AI-based applications
+    using FMs, \ democratizing access for all builders. Bedrock will offer the
+    ability to access a range of powerful FMs \ for text and images—including
+    Amazons Titan FMs, which consist of two new LLMs we’re also announcing \
+    today—through a scalable, reliable, and secure AWS managed service. With
+    Bedrock’s serverless experience, \ customers can easily find the right model
+    for what they’re trying to get done, get started quickly, privately \
+    customize FMs with their own data, and easily integrate and deploy them into
+    their applications using the AWS \ tools and capabilities they are familiar
+    with, without having to manage any infrastructure (including integrations \
+    with Amazon SageMaker ML features like Experiments to test different models
+    and Pipelines to manage their FMs at scale).
+    </text>
+    """
+
+    completion = anthropic.Completion.create(
+        model="anthropic.cluade-v2",
+        prompt=prompt,
+        max_tokens_to_sample=1000
+    )
+
+    print(completion["completion"])
+    ```
+    </Tab>
+
+    <Tab>
+    ```typescript copy
+    import AnthropicBedrock from "anthropic-bedrock"
+
+    const anthropic = new AnthropicBedrock({
+        access_key: process.env["AWS_ACCESS_KEY"],
+        secret_key: process.env["AWS_SECRET_KEY"]
+    })
+
+    const prompt = `Please provide a summary of the following text.
+
+    <text>
+    AWS took all of that feedback from customers, and today we are excited to
+    announce Amazon Bedrock, \ a new service that makes FMs from AI21 Labs,
+    Anthropic, Stability AI, and Amazon accessible via an API. \ Bedrock is the
+    easiest way for customers to build and scale generative AI-based applications
+    using FMs, \ democratizing access for all builders. Bedrock will offer the
+    ability to access a range of powerful FMs \ for text and images—including
+    Amazons Titan FMs, which consist of two new LLMs we’re also announcing \
+    today—through a scalable, reliable, and secure AWS managed service. With
+    Bedrock’s serverless experience, \ customers can easily find the right model
+    for what they’re trying to get done, get started quickly, privately \
+    customize FMs with their own data, and easily integrate and deploy them into
+    their applications using the AWS \ tools and capabilities they are familiar
+    with, without having to manage any infrastructure (including integrations \
+    with Amazon SageMaker ML features like Experiments to test different models
+    and Pipelines to manage their FMs at scale).
+    </text>
+    `
+
+    async function main(){
+        const completion = await anthropic.Completion.create(
+            model: "anthropic.claude-v2",
+            prompt: prompt,
+            max_tokens_to_sample: 1000
+        )
+
+        console.log(completion["completion"]);
+    }
+
+    main()
+    ```
+    </Tab>
+
+</Tabs>
+
+## Response
+
+```markdown
+Here is a summary of the key points from the text:
+
+- Amazon announced a new service called Amazon Bedrock that provides API access to large language models from AI companies like AI21 Labs, Anthropic, Stability AI, and Amazon.
+
+- Bedrock aims to democratize access to generative AI models and make it easy for developers to build applications using these models.
+
+- Bedrock offers text and image models including Amazon's own Titan models. It provides a serverless experience so developers can easily find, customize, integrate, and deploy models without managing infrastructure.
+
+- Bedrock allows developers to leverage other AWS services like SageMaker to test models and manage them at scale.
+
+- Overall, Bedrock simplifies access to a range of powerful AI models for developers to build generative AI applications.
+```
