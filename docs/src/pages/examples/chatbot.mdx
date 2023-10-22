@@ -58,12 +58,11 @@ A simple example of using the `ChatCompletion` endpoint.
         model="anthropic.claude-v2",
         max_tokens_to_sample=300,
         messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": "Hello!"}
         ]
     )
 
-    print(chat.messages)
+    print(chat["messages"])
     ```
     </Tab>
 
@@ -80,13 +79,12 @@ A simple example of using the `ChatCompletion` endpoint.
     async function main() {
         const chat = await anthropic.ChatCompletion.create({
             messages: [
-                { role: "system", content: "You are a helpful assistant." },
                 { role: "user", content: "Hello!" },
             ],
             model: "anthropic.claude-v2",
             max_tokens_to_sample: 300,
         });
-        console.log(chat.messages);
+        console.log(chat["messages"]);
     }
 
     main();
@@ -97,6 +95,12 @@ A simple example of using the `ChatCompletion` endpoint.
 
 ## Response
 
-```markdown
-
+```json
+[
+  { "role": "user", "content": "Hello!" },
+  {
+    "role": "system",
+    "content": " Hello! I'm Claude, an AI assistant created by Anthropic to be helpful, harmless, and honest."
+  }
+]
 ```

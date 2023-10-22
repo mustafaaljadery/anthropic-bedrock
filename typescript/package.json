@@ -1,0 +1,23 @@
+{
+  "name": "anthropic-bedrock",
+  "version": "0.0.1",
+  "description": "Anthropic/AWS Bedrock Typescript SDK.",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "authors": [
+    {
+      "name": "Mustafa Aljadery",
+      "email": "aljadery@usc.edu"
+    },
+    {
+      "name": "Siddharth Sharma",
+      "email": "sidshr@stanford.edu"
+    }
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
+}

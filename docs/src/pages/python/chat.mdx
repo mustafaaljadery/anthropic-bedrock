@@ -6,7 +6,6 @@ The `ChatCompletion` endpoint allows you to have a chat conversation with a mode
 chat = anthropic.ChatCompletion.create(
     model="anthropic.claude-v2",
     messages=[
-        {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": "Hello!"}
     ],
     max_tokens_to_sample=300
@@ -28,12 +27,11 @@ chat = anthropic.ChatCompletion.create(
     model="anthropic.claude-v2",
     max_tokens_to_sample=300,
     messages=[
-        {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": "Hello!"}
     ]
 )
 
-print(chat.messages)
+print(chat["messages"])
 ```
 
 ## Configuration
@@ -47,7 +45,6 @@ anthropic.ChatCompletion.create(
     model="anthropic.claude-v2",
     max_tokens_to_sample=300,
     messages=[
-        {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": "Hello!"}
     ]
 )
@@ -62,7 +59,6 @@ anthropic.ChatCompletion.create(
     model="anthropic.claude-v2",
     max_tokens_to_sample=300,
     messages=[
-        {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": "Hello!"}
     ]
 )
@@ -81,7 +77,6 @@ anthropic.ChatCompletion.create(
     model="anthropic.claude-v2",
     max_tokens_to_sample=300,
     messages=[
-        {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": "Hello!"}
     ]
 )
@@ -98,7 +93,6 @@ anthropic.ChatCompletion.create(
     model="anthropic.claude-v2",
     max_tokens_to_sample=300,
     messages=[
-        {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": "Hello!"}
     ],
     stop_sequences=[
@@ -119,7 +113,6 @@ anthropic.ChatCompletion.create(
     model="anthropic.claude-v2",
     max_tokens_to_sample=300,
     messages=[
-        {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": "Hello!"}
     ],
     temperature=0.7
@@ -138,7 +131,6 @@ anthropic.ChatCompletion.create(
     model="anthropic.claude-v2",
     max_tokens_to_sample=300,
     messages=[
-        {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": "Hello!"}
     ],
     top_p=0.7
@@ -160,6 +152,6 @@ anthropic.ChatCompletion.create(
         {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": "Hello!"}
     ],
-    top_k=0.7
+    top_k=250
 )
 ```

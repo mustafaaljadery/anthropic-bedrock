@@ -19,7 +19,7 @@ keywords = ["Anthropic",
       "Bedrock",
       "Claude",]
 requires-python = ">= 3.7"
-dependencies = ["httpx", "tokenizers", "boto3", "pathlib", "typing"]
+dependencies = ["tokenizers", "boto3", "pathlib", "typing"]
 
 [project.urls]
 Homepage = "https://github.com/mustafaaljadery/anthropic-bedrock"
