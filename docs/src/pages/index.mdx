@@ -1,3 +1,5 @@
+import { Cards, Card } from "nextra/components";
+
 <div className="flex flex-col justify-center items-center w-full mt-12">
   <h1 className="text-6xl font-bold text-[#363636]">Anthropic Bedrock</h1>
 </div>
@@ -27,9 +29,40 @@
 
 There are two SDKs, one for Python and the other for NodeJS. The goal is to make it extremely easy to build using Anthropic's models. Anthropic's models have amazing features not avaiable in other models, and example is the 100k context length. You can upload an entire book to Claude and chat with it.
 
-<div>
-  <button>Python SDK</button>
-</div>
+<Cards className="flex flex-row pt-8 w-full">
+  <Card
+    icon={<img src="/python.png" width={24} height={24} />}
+    title="Python"
+    href="/python"
+  />
+  <Card
+    icon={
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="my-auto"
+      >
+        <g clip-path="url(#clip0_18_2)">
+          <path d="M0 12V0H24V24H0" fill="#007ACC" />
+          <path
+            d="M5.26202 12.0418V13.0198H8.38202V21.8998H10.596V13.0198H13.716V12.0598C13.716 11.5198 13.716 11.0818 13.692 11.0698C13.692 11.0518 11.79 11.0458 9.48002 11.0458L5.28002 11.0638V12.0478L5.26202 12.0418ZM19.284 11.0398C19.896 11.1838 20.364 11.4598 20.784 11.8978C21.006 12.1378 21.336 12.5578 21.36 12.6658C21.36 12.7018 20.322 13.4038 19.692 13.7938C19.668 13.8118 19.572 13.7098 19.476 13.5538C19.164 13.1098 18.846 12.9178 18.348 12.8818C17.628 12.8338 17.148 13.2118 17.148 13.8418C17.148 14.0338 17.184 14.1418 17.256 14.2978C17.418 14.6278 17.718 14.8258 18.648 15.2338C20.364 15.9718 21.108 16.4578 21.558 17.1538C22.068 17.9338 22.182 19.1578 21.84 20.0758C21.456 21.0778 20.52 21.7558 19.182 21.9778C18.762 22.0498 17.802 22.0378 17.352 21.9598C16.392 21.7798 15.474 21.2998 14.91 20.6818C14.688 20.4418 14.262 19.7998 14.286 19.7578L14.514 19.6138L15.414 19.0918L16.092 18.6958L16.248 18.9058C16.446 19.2178 16.89 19.6378 17.148 19.7818C17.928 20.1838 18.972 20.1298 19.488 19.6618C19.71 19.4578 19.806 19.2418 19.806 18.9418C19.806 18.6658 19.764 18.5398 19.626 18.3298C19.434 18.0658 19.05 17.8498 17.97 17.3698C16.728 16.8418 16.2 16.5058 15.708 15.9898C15.426 15.6778 15.168 15.1918 15.048 14.7898C14.958 14.4418 14.928 13.5898 15.012 13.2478C15.27 12.0478 16.176 11.2078 17.472 10.9678C17.892 10.8838 18.882 10.9198 19.296 11.0278L19.284 11.0398Z"
+            fill="white"
+          />
+        </g>
+        <defs>
+          <clipPath id="clip0_18_2">
+            <rect width="24" height="24" fill="white" />
+          </clipPath>
+        </defs>
+      </svg>
+    }
+    title="Typescript"
+    href="/typescript"
+  />
+</Cards>
 
 ## Features
 
