@@ -19,7 +19,8 @@ from bedrock_anthropic import AnthropicBedrock
 
 anthropic = AnthropicBedrock(
     access_key=os.getenv("AWS_ACCESS_KEY"),
-    secret_key=os.getenv("AWS_SECRET_KEY")
+    secret_key=os.getenv("AWS_SECRET_KEY"),
+    region=os.getenv("AWS_REGION")
 )
 
 stream = anthropic.Completion.create(

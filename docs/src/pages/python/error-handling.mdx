@@ -9,7 +9,8 @@ from bedrock_anthropic import AnthropicBedrock
 
 anthropic = AnthropicBedrock(
     access_key=os.getenv("AWS_ACCESS_KEY"),
-    secret_key=os.getenv("AWS_SECRET_KEY")
+    secret_key=os.getenv("AWS_SECRET_KEY"),
+    region=os.getenv("AWS_REGION")
 )
 
 try:
@@ -35,7 +36,8 @@ anthropic = AnthropicBedrock(
     # The defult is 2
     max_retries=3,
     access_key=os.getenv("AWS_ACCESS_KEY"),
-    secret_key=os.getenv("AWS_SECRET_KEY")
+    secret_key=os.getenv("AWS_SECRET_KEY"),
+    region=os.getenv("AWS_REGION")
 )
 ```
 
@@ -49,7 +51,8 @@ from bedrock_anthropic import AnthropicBedrock
 anthropic = AnthropicBedrock(
     timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
     access_key=os.getenv("AWS_ACCESS_KEY"),
-    secret_key=os.getenv("AWS_SECRET_KEY")
+    secret_key=os.getenv("AWS_SECRET_KEY"),
+    region=os.getenv("AWS_REGION")
 )
 ```
 
