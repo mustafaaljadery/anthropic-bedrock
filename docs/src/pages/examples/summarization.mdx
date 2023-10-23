@@ -49,7 +49,8 @@ An example of using the `Completion` endpoint to summarize text.
 
     anthropic = AnthropicBedrock(
         access_key=os.getenv("AWS_ACCESS_KEY"),
-        secret_key=os.getenv("AWS_SECRET_KEY")
+        secret_key=os.getenv("AWS_SECRET_KEY"),
+        region=os.getenv("AWS_REGION")
     )
 
     prompt = """Please provide a summary of the following text.
@@ -89,7 +90,8 @@ An example of using the `Completion` endpoint to summarize text.
 
     const anthropic = new AnthropicBedrock({
         access_key: process.env["AWS_ACCESS_KEY"],
-        secret_key: process.env["AWS_SECRET_KEY"]
+        secret_key: process.env["AWS_SECRET_KEY"],
+        region: proces.env["AWS_REGION"]
     })
 
     const prompt = `Please provide a summary of the following text.

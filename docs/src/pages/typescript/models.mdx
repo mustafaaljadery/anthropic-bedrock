@@ -12,12 +12,13 @@ This is the earliest version of Anthropic's general purpose LLMs.
 
 ### Usage
 
-```typescript {10}
+```typescript {11}
 import AnthropicBedrock from "anthropic-bedrock";
 
 const anthropic = new AnthropicBedrock({
   access_key: process.env["AWS_ACCESS_KEY"],
   secret_key: process.env["AWS_SECRET_KEY"],
+  region: process.env["AWS_REGION"]
 });
 
 async function main() {
@@ -42,12 +43,13 @@ Anthropic's most powerful model, which excels at a wide range of tasks from soph
 
 ### Usage
 
-```typescript {10}
+```typescript {11}
 import AnthropicBedrock from "anthropic-bedrock";
 
 const anthropic = new AnthropicBedrock({
   access_key: process.env["AWS_ACCESS_KEY"],
   secret_key: process.env["AWS_SECRET_KEY"],
+  region: process.env["AWS_REGION"]
 });
 
 async function main() {
@@ -72,12 +74,13 @@ A faster and cheaper yet still very capable model, which can handle a range of t
 
 ### Usage
 
-```typescript {10}
+```typescript {11}
 import AnthropicBedrock from "anthropic-bedrock";
 
 const anthropic = new AnthropicBedrock({
   access_key: process.env["AWS_ACCESS_KEY"],
   secret_key: process.env["AWS_SECRET_KEY"],
+  region: process.env["AWS_REGION"]
 });
 
 async function main() {

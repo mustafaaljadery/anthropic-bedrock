@@ -6,7 +6,8 @@ The `ChatCompletion` endpoint allows you to have a chat conversation with a mode
 chat = anthropic.ChatCompletion.create(
     model="anthropic.claude-v2",
     messages=[
-        {"role": "user", "content": "Hello!"}
+        {"role": "user", "content": "Hello!"},
+        # { role: "system", content: "Hi how are you doing today." },
     ],
     max_tokens_to_sample=300
 )
@@ -28,7 +29,8 @@ chat = anthropic.ChatCompletion.create(
     model="anthropic.claude-v2",
     max_tokens_to_sample=300,
     messages=[
-        {"role": "user", "content": "Hello!"}
+        {"role": "user", "content": "Hello!"},
+        # { role: "system", content: "Hi how are you doing today." },
     ]
 )
 
@@ -46,7 +48,8 @@ anthropic.ChatCompletion.create(
     model="anthropic.claude-v2",
     max_tokens_to_sample=300,
     messages=[
-        {"role": "user", "content": "Hello!"}
+        {"role": "user", "content": "Hello!"},
+        # { role: "system", content: "Hi how are you doing today." },
     ]
 )
 ```
@@ -60,7 +63,8 @@ anthropic.ChatCompletion.create(
     model="anthropic.claude-v2",
     max_tokens_to_sample=300,
     messages=[
-        {"role": "user", "content": "Hello!"}
+        {"role": "user", "content": "Hello!"},
+        # { role: "system", content: "Hi how are you doing today." },
     ]
 )
 ```
@@ -78,7 +82,8 @@ anthropic.ChatCompletion.create(
     model="anthropic.claude-v2",
     max_tokens_to_sample=300,
     messages=[
-        {"role": "user", "content": "Hello!"}
+        {"role": "user", "content": "Hello!"},
+        # { role: "system", content: "Hi how are you doing today." },
     ]
 )
 ```
@@ -94,7 +99,8 @@ anthropic.ChatCompletion.create(
     model="anthropic.claude-v2",
     max_tokens_to_sample=300,
     messages=[
-        {"role": "user", "content": "Hello!"}
+        {"role": "user", "content": "Hello!"},
+        # { role: "system", content: "Hi how are you doing today." },
     ],
     stop_sequences=[
         "sequence"
@@ -114,7 +120,8 @@ anthropic.ChatCompletion.create(
     model="anthropic.claude-v2",
     max_tokens_to_sample=300,
     messages=[
-        {"role": "user", "content": "Hello!"}
+        {"role": "user", "content": "Hello!"},
+        # { role: "system", content: "Hi how are you doing today." },
     ],
     temperature=0.7
 )
@@ -132,7 +139,8 @@ anthropic.ChatCompletion.create(
     model="anthropic.claude-v2",
     max_tokens_to_sample=300,
     messages=[
-        {"role": "user", "content": "Hello!"}
+        {"role": "user", "content": "Hello!"},
+        # { role: "system", content: "Hi how are you doing today." },
     ],
     top_p=0.7
 )
@@ -150,8 +158,8 @@ anthropic.ChatCompletion.create(
     model="anthropic.claude-v2",
     max_tokens_to_sample=300,
     messages=[
-        {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": "Hello!"}
+        {"role": "user", "content": "Hello!"},
+        # { role: "system", content: "Hi how are you doing today." },
     ],
     top_k=250
 )

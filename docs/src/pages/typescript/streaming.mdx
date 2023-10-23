@@ -19,6 +19,7 @@ import AnthropicBedrock from "anthropic-bedrock";
 const anthropic = new AnthropicBedrock({
   access_key: process.env["AWS_ACCESS_KEY"],
   secret_key: process.env["AWS_SECRET_KEY"],
+  region: process.env["AWS_REGION"]
 });
 
 async function main() {
@@ -43,7 +44,7 @@ The configuration parameters are the exact same as completion, except the `strea
 
 ### model
 
-The model that will complete your prompt.
+The model that will complete your prompt. Refer to the models [page](/typescript/models).
 
 ```typescript {2}
 const completion = await anthropic.Completion.crearte(
@@ -58,6 +59,8 @@ const completion = await anthropic.Completion.crearte(
 
 The prompt you want to use.
 
+- Type: `string`
+
 ```typescript {3}
 const completion = await anthropic.Completion.crearte(
     model: "anthropic.claude-v2",
@@ -67,9 +70,12 @@ const completion = await anthropic.Completion.crearte(
 )
 ```
 
-### max_tokens_to_sample
+### max_tokens_to_sample (optional)
 
 The maximum number of tokens to generate before stopping.
+
+- Default: `256`
+- Range depends on the model, refer to the [models page](/typescript/models).
 
 ```typescript {4}
 const completion = await anthropic.Completion.crearte(
@@ -83,6 +89,8 @@ const completion = await anthropic.Completion.crearte(
 ### stop_sequences (optional)
 
 Sequences that will cause the model to stop generating completion text.
+
+- Default: `[]`
 
 ```typescript {5-7}
 const completion = await anthropic.Completion.crearte(
@@ -98,9 +106,10 @@ const completion = await anthropic.Completion.crearte(
 
 ### temperature (optional)
 
-Amount of randomness injected in the response. 0-1
+Amount of randomness injected in the response.
 
-_Note: you can either use temperature, top p, or top k._
+- Default: `1`
+- Range: `0-1`
 
 ```typescript {5}
 const completion = await anthropic.Completion.crearte(
@@ -114,9 +123,10 @@ const completion = await anthropic.Completion.crearte(
 
 ### top_p (optional)
 
-Use nucleus sampling. 0-1
+Use nucleus sampling.
 
-_Note: you can either use temperature, top p, or top k._
+- Default: `1`
+- Range: `0-1`
 
 ```typescript {5}
 const completion = await anthropic.Completion.crearte(
@@ -130,9 +140,10 @@ const completion = await anthropic.Completion.crearte(
 
 ### top_k (optional)
 
-Only sample from the top K options for each subsequent token. 0-1
+Only sample from the top K options for each subsequent token.
 
-_Note: you can either use temperature, top p, or top k._
+- Default: `250`
+- Range: `0-500`
 
 ```typescript {5}
 const completion = await anthropic.Completion.crearte(

@@ -65,6 +65,7 @@ import AnthropicBedrock from "anthropic-bedrock";
 anthropic = new AnthropicBedrock({
   access_key: process.env["AWS_ACCESS_KEY"],
   secret_key: process.env["AWS_SECRET_KEY"],
+  region: process.env["AWS_REGION"],
 });
 ```
 

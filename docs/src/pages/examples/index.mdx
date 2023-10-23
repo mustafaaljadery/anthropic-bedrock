@@ -50,7 +50,8 @@ from bedrock_anthropic import AnthropicBedrock
 
 anthropic = AnthropicBedrock(
     access_key=os.getenv("AWS_ACCESS_KEY"),
-    secret_key=os.getenv("AWS_SECRET_KEY")
+    secret_key=os.getenv("AWS_SECRET_KEY"),
+    region=os.getenv("AWS_REGION")
 )
 
 completion = anthropic.Completion.create(
@@ -72,6 +73,7 @@ import AnthropicBedrock from "anthropic-bedrock";
 const anthropic = new AnthropicBedrock({
     access_key: process.env["AWS_ACCESS_KEY"],
     secret_key: process.env["AWS_SECRET_KEY"],
+    region: process.env["AWS_REGION"]
 });
 
 async function main() {
