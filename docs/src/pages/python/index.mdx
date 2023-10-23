@@ -14,11 +14,11 @@ pip install bedrock-anthropic
 
 ## Authentication
 
-<Tabs items={["Access & Secret Keys", "AWS CLI", ""]}>
+<Tabs items={["Access & Secret Keys", "AWS CLI", "Specific Role"]}>
     <Tab>
     This is the preferred way to use this SDK. Learn more about how you can get your access key and secrey key [here](/python/client).
 
-    ```python
+    ```python copy
     import os
     from bedrock_anthropic import AnthropicBedrock
 
@@ -32,7 +32,7 @@ pip install bedrock-anthropic
     <Tab>
     In this method, your credentials are already provided by the AWS CLI. Read more about it [here](/python/client).
 
-    ```python
+    ```python copy
     from bedrock_anthropic import AnthropicBedrock
 
     anthropic = AnthropicBedrock()
@@ -40,7 +40,17 @@ pip install bedrock-anthropic
     </Tab>
 
     <Tab>
+    In the case that your company has a specific role or seperate IAM Role to access Bedrock, you can specify the assume role manually. You must also ensure that the user has the permissions to [assume](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html) such role.
 
+    ```python copy
+    from bedrock_anthropic import AnthropicBedrock
+
+    anthropic = AnthropicBedrock(
+        assumed_role = os.getenv("AWS_ASSUMED_ROLE")
+    )
+    ```
+
+    _This assumes you have the AWS CLI setup._
     </Tab>
 
 </Tabs>

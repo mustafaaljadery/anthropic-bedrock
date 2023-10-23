@@ -10,11 +10,137 @@ This is the preferred way to use this SDK.
 
 ### Get Access Key and Secret Key
 
+Access key and secret key are the preferred ways to interact with this library. Note that the access key is different from that in the anthropic console. This SDK is soley focused on AWS Bedrock.
+
+### Steps
+
+1. Get started by going to [AWS Bedrock](https://aws.amazon.com/bedrock/). Sign up for an account if you don't have one.
+2. Go to anthropics models in the AWS bedrock console. If you're on `us-east-1` you can following this [link](https://us-east-1.console.aws.amazon.com/bedrock/home?region=us-east-1#/providers?model=claude). If not, change to the region on are on, or just go through the console.
+3. Request access to Anthropic's models.
+4. Once you are approved (should be very quick), got to the IAM dashboard in AWS. If you're on `us-east-1` use the following [link](https://us-east-1.console.aws.amazon.com/iamv2/home?region=us-east-1#/home).
+5. Go to users and create a user.
+
+![Create a user](/createuser.png)
+
+6. Enter a user name and create a user. (You don't have to add them to user groups or anything, but if you want to add them to an admin user group that's great as well).
+7. Click on the newly created user and click on add permissions.
+
+![Add permissions](/permissions.png)
+
+8. Click on create inline policy.
+
+![Inline policy](/inline.png)
+
+9. Click on JSON
+
+![JSON](/json.png)
+
+10. The paste in the following:
+
+```json copy
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "BedrockFullAccess",
+      "Effect": "Allow",
+      "Action": ["bedrock:*"],
+      "Resource": "*"
+    }
+  ]
+}
+```
+
+11. Click next, give the policy any time `bedrock` is fine.
+
+12. Now create an access key
+
+![Access Key](/accesskey.png)
+
+13. Select local code
+
+![Local code](/localcode.png)
+
+14. Done! You have an access key and a secret key. You are ready to use Anthropic's models.
+
 ### Usage
 
-```python
+```python copy
+from bedrock_anthropic import AnthropicBedrock
 
-
+anthropic = AnthropicBedrock(
+    access_key=os.getenv("AWS_ACCESS_KEY"),
+    secret_key=os.getenv("AWS_SECRET_KEY")
+)
 ```
 
 ## AWS CLI
+
+The AWS CLI allows you to abstract authentication. It does all the authentication for you if you are logged in using the CLI.
+
+### Steps
+
+1. Follow all the steps above until step 13.
+2. Follow this [guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) to install the AWS CLI.
+3. Follow this [guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html) to login to the CLI.
+4. You're good to go!
+
+### Usage
+
+```python copy
+from bedrock_anthropic import AnthropicBedrock
+
+anthropic = AnthropicBedrock()
+```
+
+## Specific Role
+
+In the case that your company has a specific role or seperate IAM Role to access Bedrock, you can specify the assume role manually. You must also ensure that the user has the permissions to [assume](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html) such role.
+
+## Steps
+
+1. Follow all the steps above until step 13.
+2. Ensure that the current user has an [assumed role](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html).
+3. Done, just add the assumed role to the python client.
+
+### Usage
+
+```python copy
+from bedrock_anthropic import AnthropicBedrock
+
+anthropic = AnthropicBedrock(
+    assumed_role = os.getenv("AWS_ASSUMED_ROLE")
+)
+```
+
+_This assumed you have the AWS CLI setup._
+
+## Region
+
+If you have a differen region from where Bedrock is setup, you can specify the region in the client.
+
+### Example
+
+```python copy
+from bedrock_anthropic import AnthropicBedrock
+
+anthropic = AnthropicBedrock(
+    region=os.getenv("AWS_DEFAULT_REGION"),
+)
+```
+
+_This assumes you have the AWS CLI setup._
+
+## Specific Profile
+
+If you have multiple profiles on your AWS CLI, you can specify the profile you want to use.
+
+```python copy
+from bedrock_anthropic import AnthropicBedrock
+
+anthropic = AnthropicBedrock(
+    profile=os.getenv["AWS_PROFILE"]
+)
+```
+
+_This assumes you have the AWS CLI setup._
