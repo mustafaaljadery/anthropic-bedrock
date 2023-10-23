@@ -9,7 +9,7 @@ completion = await anthropic.Completion.create(
     max_tokens_to_sample=300
 )
 
-print(completion.completion)
+print(completion["completion"])
 ```
 
 ## Usage
@@ -30,7 +30,7 @@ async def main():
         max_tokens_to_sample=300,
         prompt="Why is the sky blue?"
     )
-    print(completion.completion)
+    print(completion["completion"])
 
 
 asyncio.run(main())

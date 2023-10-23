@@ -31,7 +31,7 @@ stream = anthropic.Completion.create(
 )
 
 for completion in stream:
-    print(completion.completion, end="", flush=True)
+    print(completion["completion"], end="", flush=True)
 ```
 
 ## Configuration

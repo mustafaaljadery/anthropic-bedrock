@@ -27,7 +27,7 @@ completion = anthropic.Completion.create(
     prompt="Why is the sky blue?"
 )
 
-print(completion.completion)
+print(completion["completion"])
 ```
 
 ## anthropic.claude-v2
@@ -55,7 +55,7 @@ completion = anthropic.Completion.create(
     prompt="Why is the sky blue?"
 )
 
-print(completion.completion)
+print(completion["completion"])
 ```
 
 ## anthropic.claude-instant-v1
@@ -83,5 +83,5 @@ completion = anthropic.Completion.create(
     prompt="Why is the sky blue?"
 )
 
-print(completion.completion)
+print(completion["completion"])
 ```

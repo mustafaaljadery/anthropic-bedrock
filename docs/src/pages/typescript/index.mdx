@@ -41,6 +41,7 @@ import AnthropicBedrock from "anthropic-bedrock";
 const anthropic = new AnthropicBedrock({
   access_key: process.env["AWS_ACCESS_KEY"],
   secret_key: process.env["AWS_SECRET_KEY"],
+  region: process.env["AWS_REGION"],
 });
 ```
 
@@ -83,6 +84,7 @@ import AnthropicBedrock from "anthropic-bedrock";
 const anthropic = new AnthropicBedrock({
   access_key: process.env["AWS_ACCESS_KEY"],
   secret_key: process.env["AWS_SECRET_KEY"],
+  region: process.env["AWS_REGION"]
 });
 
 async function main() {
@@ -92,7 +94,7 @@ async function main() {
         max_tokens_to_sample: 300
     )
 
-    console.log(completion.completion)
+    console.log(completion["completion"])
 }
 
 main();
