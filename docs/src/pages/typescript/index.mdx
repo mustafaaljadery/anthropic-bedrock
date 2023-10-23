@@ -18,7 +18,7 @@ npm i anthropic-bedrock
   {/* prettier-ignore */}
   <Tab>
 ```bash
-pnpm i anthropic-bedrock 
+pnpm add anthropic-bedrock 
 ```
     </Tab>
   {/* prettier-ignore */}
@@ -29,9 +29,49 @@ yarn add anthropic-bedrock
     </Tab>
 </Tabs>
 
-## AWS Keys
+## Authentication
 
-To be written!
+<Tabs items={["Access & Secret Keys", "AWS CLI", "Specific Role"]}>
+  <Tab>
+  This is the preferred way to use this SDK. Learn more about how you can get your access key and secrey key [here](/typescript/client).
+
+```typescript copy
+import AnthropicBedrock from "anthropic-bedrock";
+
+const anthropic = new AnthropicBedrock({
+  access_key: process.env["AWS_ACCESS_KEY"],
+  secret_key: process.env["AWS_SECRET_KEY"],
+});
+```
+
+  </Tab>
+
+  <Tab>
+  In this method, your credentials are already provided by the AWS CLI. Read more about it [here](/typescript/client).
+
+```typescript copy
+import AnthropicBedrock from "anthropic-bedrock";
+
+const anthropic = new AnthropicBedrock();
+```
+
+  </Tab>
+
+  <Tab>
+  In the case that your company has a specific role or seperate IAM Role to access Bedrock, you can specify the assume role manually. You must also ensure that the user has the permissions to [assume](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html) such role.
+
+```typescript copy
+import AnthropicBedrock from "anthropic-bedrock";
+
+const anthropic = new AnthropicBedrock({
+  assumed_role = process.env["AWS_ASSUMED_ROLE"],
+});
+```
+
+_This assumes you have the AWS CLI setup._
+
+  </Tab>
+</Tabs>
 
 ## Done!
 

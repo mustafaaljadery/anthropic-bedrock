@@ -1,14 +1,8 @@
-import Image from "next/image";
-
 # Client
 
 There are three ways to sign in using AWS Bedrock, the most intuitive way is with an `access_key` and a `secret_key`. You can also automatically sign in with your `aws credentials` if you are signed in using the aws cli. Finally, you can sign in using AWS profile.
 
 ## Access Key and Secret Key
-
-This is the preferred way to use this SDK.
-
-### Get Access Key and Secret Key
 
 Access key and secret key are the preferred ways to interact with this library. Note that the access key is different from that in the anthropic console. This SDK is soley focused on AWS Bedrock.
 
@@ -97,7 +91,7 @@ anthropic = AnthropicBedrock()
 
 In the case that your company has a specific role or seperate IAM Role to access Bedrock, you can specify the assume role manually. You must also ensure that the user has the permissions to [assume](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html) such role.
 
-## Steps
+### Steps
 
 1. Follow all the steps above until step 13.
 2. Ensure that the current user has an [assumed role](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html).
@@ -134,6 +128,8 @@ _This assumes you have the AWS CLI setup._
 ## Specific Profile
 
 If you have multiple profiles on your AWS CLI, you can specify the profile you want to use.
+
+### Example
 
 ```python copy
 from bedrock_anthropic import AnthropicBedrock
