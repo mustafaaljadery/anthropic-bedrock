@@ -1,0 +1,11 @@
+LICENSE
+README.md
+pyproject.toml
+src/bedrock_anthropic/__init__.py
+src/bedrock_anthropic/async_client.py
+src/bedrock_anthropic/client.py
+src/bedrock_anthropic.egg-info/PKG-INFO
+src/bedrock_anthropic.egg-info/SOURCES.txt
+src/bedrock_anthropic.egg-info/dependency_links.txt
+src/bedrock_anthropic.egg-info/requires.txt
+src/bedrock_anthropic.egg-info/top_level.txt

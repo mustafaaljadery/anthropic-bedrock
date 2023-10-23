@@ -7,14 +7,11 @@ from pathlib import Path
 from typing import cast
 
 class AnthropicBedrock():
-    def __init__(self, region = None, access_key = None, secret_key = None):
-
+    def __init__(self, region = None, access_key = None, secret_key = None, profile = None, assumed_role = None):
         if region is None:
             target_region = os.environ.get("AWS_REGION", os.environ.get("AWS_DEFAULT_REGION"))
-
-        target_region = region
-
-        self.target_region = region
+        else: 
+            target_region = region
 
         retry_config = Config(
             region_name=target_region,
@@ -26,11 +23,27 @@ class AnthropicBedrock():
 
         session_kwargs = {"region_name": target_region}
         if access_key and secret_key: 
-            session_kwargs = {"region_name": target_region, "aws_access_key_id": access_key, "aws_secret_access_key": secret_key}
+            session_kwargs = {"aws_access_key_id": access_key, "aws_secret_access_key": secret_key}
+
+        if profile:
+            print(f"  Using profile: {profile}")
+            session_kwargs["profile_name"] = profile
 
         session = boto3.Session(**session_kwargs)
         client_kwargs = {**session_kwargs}
         service_name='bedrock-runtime'
+
+        if assumed_role:
+            print(f"  Using role: {assumed_role}", end='')
+            sts = session.client("sts")
+            response = sts.assume_role(
+                RoleArn=str(assumed_role),
+                RoleSessionName="langchain-llm-1"
+            )
+            print(" ... successful!")
+            client_kwargs["aws_access_key_id"] = response["Credentials"]["AccessKeyId"]
+            client_kwargs["aws_secret_access_key"] = response["Credentials"]["SecretAccessKey"]
+            client_kwargs["aws_session_token"] = response["Credentials"]["SessionToken"]
 
         bedrock_client = session.client(
             service_name=service_name,
@@ -60,6 +73,11 @@ class AnthropicBedrock():
 class Completion():
     def __init__(self, bedrock_client):
         self.bedrock_client = bedrock_client
+    
+    def _check_stream(self, stream): 
+        if not isinstance(stream, bool):
+            raise ValueError(f"Stream value: {stream} is not a boolean")
+
 
     def _check_model(self, model):
         if not isinstance(model, str):
@@ -82,7 +100,12 @@ class Completion():
             raise ValueError(f"temperature: {temperature} is greater than 1.")
 
     def _check_stop_sequences(self, stop_sequences):
-        pass
+        if not isinstance(stop_sequences, list):
+            raise ValueError("Make sure stop_sequences is a list.")
+        
+        for stop in stop_sequences: 
+            if not isinstance(stop, str):
+                raise ValueError("Make sure all items in stop_sequences are strs.")
 
     def _check_top_p(self, top_p):
         if not isinstance(top_p, int) and not isinstance(top_p, float):
@@ -104,10 +127,11 @@ class Completion():
     def _create_prompt(self, prompt):
         text = f"""\n\nHuman: {prompt}
 
-        \nAssistant:"""
+        \nAssistant: """
         return text
 
-    def create(self, prompt, model, max_tokens_to_sample = 256, top_p=1, top_k=250, temperature=1, stop_sequences=[]):
+    def create(self, prompt, model, max_tokens_to_sample = 256, top_p=1, top_k=250, temperature=1, stop_sequences=[], stream=False):
+        self._check_stream(stream)
         self._check_model(model)
         self._check_max_tokens_to_sample(max_tokens_to_sample)
         self._check_temperature(temperature)
@@ -129,14 +153,23 @@ class Completion():
         accept = 'application/json'
         contentType = 'application/json'
 
-        response = self.bedrock_client.invoke_model(body=body, modelId=model, accept=accept, contentType=contentType)
-        response_body = json.loads(response.get('body').read())
-        return response_body
+        if stream:
+            response = self.bedrock_client.invoke_model_with_response_stream(body=body, modelId=model, accept=accept, contentType=contentType)
+            stream = response.get('body')
+            return stream
+        else:
+            response = self.bedrock_client.invoke_model(body=body, modelId=model, accept=accept, contentType=contentType)
+            response_body = json.loads(response.get('body').read())
+            return response_body
 
 
 class Chat():
     def __init__(self, bedrock_client):
         self.bedrock_client = bedrock_client
+    
+    def _check_stream(self, stream): 
+        if not isinstance(stream, bool):
+            raise ValueError(f"Stream value: {stream} is not a boolean")
     
     def _check_model(self, model):
         if not isinstance(model, str):
@@ -159,7 +192,12 @@ class Chat():
             raise ValueError(f"temperature: {temperature} is greater than 1.")
 
     def _check_stop_sequences(self, stop_sequences):
-        pass
+        if not isinstance(stop_sequences, list):
+            raise ValueError("Make sure stop_sequences is a list.")
+
+        for stop in stop_sequences: 
+            if not isinstance(stop, str):
+                raise ValueError("Make sure all items in stop_sequences are strs.")
 
     def _check_top_p(self, top_p):
         if not isinstance(top_p, int) and not isinstance(top_p, float):
@@ -186,13 +224,14 @@ class Chat():
             elif message['role'] == "user": 
                 prompt += f"\n Human: {message['content']}"
             else: 
-                raise ValueError(f"Got unknown role {message['role']}")
+                raise ValueError(f"Got unknown role {message['role']}.")
 
-        prompt += "\n\n Assistant:"
+        prompt += "\n\n Assistant: "
 
         return prompt
     
-    def create(self, messages, model, max_tokens_to_sample = 256, top_p=1, top_k=250, temperature=1, stop_sequences=[]):
+    def create(self, messages, model, max_tokens_to_sample = 256, top_p=1, top_k=250, temperature=1, stop_sequences=[], stream=False):
+        self._check_stream(stream)
         self._check_model(model)
         self._check_max_tokens_to_sample(max_tokens_to_sample)
         self._check_temperature(temperature)
@@ -214,26 +253,19 @@ class Chat():
         accept = 'application/json'
         contentType = 'application/json'
 
-        response = self.bedrock_client.invoke_model(body=body, modelId=model, accept=accept, contentType=contentType)
-        response_body = json.loads(response.get('body').read())
-        messages.append({
-            "role": "system",
-            "content": response_body["completion"]
-        }) 
+        if stream:
+            response = self.bedrock_client.invoke_model_with_response_stream(body=body, modelId=model, accept=accept, contentType=contentType)
+            stream = response.get('body')
+            return stream
+        else:
+            response = self.bedrock_client.invoke_model(body=body, modelId=model, accept=accept, contentType=contentType)
+            response_body = json.loads(response.get('body').read())
+            messages.append({
+                "role": "system",
+                "content": response_body["completion"]
+            }) 
 
-        return {
-            "messages": messages, 
-            "stop_reason": response_body["stop_reason"]
-        }
-
-
-anthropic = AnthropicBedrock(region="us-east-1")
-
-chat = anthropic.ChatCompletion.create(
-    model="anthropic.claude-v2",
-    messages=[
-        {"role": "user", "content": "Hello!"}
-    ],
-)
-
-print(chat["messages"])
+            return {
+                "messages": messages, 
+                "stop_reason": response_body["stop_reason"]
+            }
