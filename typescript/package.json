@@ -1,11 +1,12 @@
 {
   "name": "anthropic-bedrock",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "Anthropic/AWS Bedrock Typescript SDK.",
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dist": "node dist/index.js"
+    "dist": "node dist/index.js",
+    "build": "tsc"
   },
   "authors": [
     {
@@ -17,8 +18,27 @@
       "email": "sidshr@stanford.edu"
     }
   ],
+  "keywords": [
+    "LLM",
+    "Bedrock",
+    "Claude",
+    "OpenAI",
+    "tiktoken",
+    "AWS Bedrock",
+    "Anthropic"
+  ],
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^20.8.8",
     "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@aws-crypto/sha256-js": "^5.2.0",
+    "@aws-sdk/credential-providers": "^3.433.0",
+    "@aws-sdk/protocol-http": "^3.374.0",
+    "@aws-sdk/signature-v4": "^3.374.0",
+    "@dqbd/tiktoken": "^1.0.7",
+    "tiktoken": "^1.0.10",
+    "axios": "^1.5.1"
   }
 }

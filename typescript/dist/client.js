@@ -8,27 +8,214 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AnthropicBedrock = void 0;
+const signature_v4_1 = require("@aws-sdk/signature-v4");
+const protocol_http_1 = require("@aws-sdk/protocol-http");
+const sha256_js_1 = require("@aws-crypto/sha256-js");
+const axios_1 = __importDefault(require("axios"));
 class AnthropicBedrock {
-    constructor() {
-        this.Completion = new Completion();
-        this.ChatCompletion = new Chat();
+    constructor({ access_key, secret_key, region }) {
+        this.Completion = new Completion(access_key, secret_key, region);
+        this.ChatCompletion = new Chat(access_key, secret_key, region);
     }
 }
 exports.AnthropicBedrock = AnthropicBedrock;
 class Completion {
-    constructor() { }
+    constructor(access_key, secret_key, region) {
+        this.access_key = access_key;
+        this.secret_key = secret_key;
+        this.region = region;
+    }
+    auth_headers(access_key, secret_key, model, region, prompt, max_tokens_to_sample, temperature, top_k, top_p, stop_sequences) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const credentials = {
+                accessKeyId: access_key,
+                secretAccessKey: secret_key,
+            };
+            const signer = new signature_v4_1.SignatureV4({
+                service: "bedrock",
+                region: region,
+                credentials: credentials,
+                sha256: sha256_js_1.Sha256,
+            });
+            const headers = {
+                host: `bedrock-runtime.${region}.amazonaws.com`,
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            };
+            const request = new protocol_http_1.HttpRequest({
+                method: "POST",
+                path: `/model/${model}/invoke`,
+                hostname: `bedrock-runtime.${region}.amazonaws.com`,
+                headers,
+                body: JSON.stringify({
+                    prompt: prompt,
+                    max_tokens_to_sample: max_tokens_to_sample,
+                    temperature: temperature,
+                    top_k: top_k,
+                    top_p: top_p,
+                    stop_sequences: stop_sequences,
+                    anthropic_version: "bedrock-2023-05-31",
+                }),
+            });
+            const signed = yield signer.sign(request, {
+                signingDate: new Date(),
+            });
+            return {
+                headers: signed.headers,
+                body: signed.body,
+            };
+        });
+    }
     check_model(model) {
-        if (model != "" && model != "" && model != "") {
+        if (model != "anthropic.claude-v1" &&
+            model != "anthropic.claude-v2" &&
+            model != "anthropic.claude-instant-v1") {
+            throw Error(`Model ${model} not found.`);
         }
     }
-    check_max_tokens_to_sample(tokens) { }
-    check_temperature(temperature) { }
-    check_top_p(top_p) { }
-    check_top_k(top_k) { }
+    check_max_tokens_to_sample(tokens) {
+        if (tokens < 0) {
+            throw Error(`max_tokens_to_sample: ${tokens} is less than 0.`);
+        }
+    }
+    check_temperature(temperature) {
+        if (temperature < 0) {
+            throw Error(`temperature: ${temperature} is less than 0.`);
+        }
+        else if (temperature > 1) {
+            throw Error(`temperature: ${temperature} is greater than 1.`);
+        }
+    }
+    check_top_p(top_p) {
+        if (top_p < 0) {
+            throw Error(`top_p: ${top_p} is less than 0.`);
+        }
+        else if (top_p > 1) {
+            throw Error(`top_p: ${top_p} is greater than 1.`);
+        }
+    }
+    check_top_k(top_k) {
+        if (top_k < 0) {
+            throw Error(`top_k: ${top_k} is less than 0.`);
+        }
+        else if (top_k > 500) {
+            throw Error(`top_k: ${top_k} is greater than 500.`);
+        }
+    }
+    create_prompt(prompt) {
+        let text = `\n\nHuman: ${prompt}
+
+    \nAssistant: `;
+        return text;
+    }
+    create({ model, prompt, max_tokens_to_sample = 256, temperature = 1, top_p = 1, top_k = 250, stop_sequences = [], }) {
+        return __awaiter(this, void 0, void 0, function* () {
+            Promise.all([
+                this.check_model(model),
+                this.check_max_tokens_to_sample(max_tokens_to_sample),
+                this.check_temperature(temperature),
+                this.check_top_p(top_p),
+                this.check_top_k(top_k),
+            ]);
+            prompt = this.create_prompt(prompt);
+            const aws_signer = yield this.auth_headers(this.access_key, this.secret_key, model, this.region, prompt, max_tokens_to_sample, temperature, top_k, top_p, stop_sequences);
+            const result = yield axios_1.default.post(`https://bedrock-runtime.${this.region}.amazonaws.com/model/${model}/invoke`, aws_signer.body, {
+                headers: aws_signer.headers,
+            });
+            return result.data;
+        });
+    }
+}
+class Chat {
+    constructor(access_key, secret_key, region) {
+        this.access_key = access_key;
+        this.secret_key = secret_key;
+        this.region = region;
+    }
+    auth_headers(access_key, secret_key, model, region, prompt, max_tokens_to_sample, temperature, top_k, top_p, stop_sequences) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const credentials = {
+                accessKeyId: access_key,
+                secretAccessKey: secret_key,
+            };
+            const signer = new signature_v4_1.SignatureV4({
+                service: "bedrock",
+                region: region,
+                credentials: credentials,
+                sha256: sha256_js_1.Sha256,
+            });
+            const headers = {
+                host: `bedrock-runtime.${region}.amazonaws.com`,
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            };
+            const request = new protocol_http_1.HttpRequest({
+                method: "POST",
+                path: `/model/${model}/invoke`,
+                hostname: `bedrock-runtime.${region}.amazonaws.com`,
+                headers,
+                body: JSON.stringify({
+                    prompt: prompt,
+                    max_tokens_to_sample: max_tokens_to_sample,
+                    temperature: temperature,
+                    top_k: top_k,
+                    top_p: top_p,
+                    stop_sequences: stop_sequences,
+                    anthropic_version: "bedrock-2023-05-31",
+                }),
+            });
+            const signed = yield signer.sign(request, {
+                signingDate: new Date(),
+            });
+            return {
+                headers: signed.headers,
+                body: signed.body,
+            };
+        });
+    }
+    check_model(model) {
+        if (model != "anthropic.claude-v1" &&
+            model != "anthropic.claude-v2" &&
+            model != "anthropic.claude-instant-v1") {
+            throw Error(`Model ${model} not found.`);
+        }
+    }
+    check_max_tokens_to_sample(tokens) {
+        if (tokens < 0) {
+            throw Error(`max_tokens_to_sample: ${tokens} is less than 0.`);
+        }
+    }
+    check_temperature(temperature) {
+        if (temperature < 0) {
+            throw Error(`temperature: ${temperature} is less than 0.`);
+        }
+        else if (temperature > 1) {
+            throw Error(`temperature: ${temperature} is greater than 1.`);
+        }
+    }
+    check_top_p(top_p) {
+        if (top_p < 0) {
+            throw Error(`top_p: ${top_p} is less than 0.`);
+        }
+        else if (top_p > 1) {
+            throw Error(`top_p: ${top_p} is greater than 1.`);
+        }
+    }
+    check_top_k(top_k) {
+        if (top_k < 0) {
+            throw Error(`top_k: ${top_k} is less than 0.`);
+        }
+        else if (top_k > 500) {
+            throw Error(`top_k: ${top_k} is greater than 500.`);
+        }
+    }
     create_prompt(messages) {
-        let prompt = "\n\n Human: you are a helpful assistant.";
+        let prompt = "\n\nHuman: you are a helpful assistant.";
         for (const message of messages) {
             if (message["role"] == "system") {
                 prompt += `\n Assistant: ${message["content"]}`;
@@ -40,25 +227,32 @@ class Completion {
                 throw Error(`Got unknown role ${message["role"]}.`);
             }
         }
-        prompt += "\n\n Assistant: ";
+        prompt += "\nAssistant: ";
         return prompt;
     }
-    create({ model, prompt, max_tokens_to_sample = 256, temperature = 1, top_p = 1, top_k = 250, stop_sequences = [], }) {
+    create({ model, messages, max_tokens_to_sample = 256, temperature = 1, top_p = 1, top_k = 250, stop_sequences = [], }) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield Promise.all([this.check_model(model)]);
-            console.log("done");
+            Promise.all([
+                this.check_model(model),
+                this.check_max_tokens_to_sample(max_tokens_to_sample),
+                this.check_temperature(temperature),
+                this.check_top_p(top_p),
+                this.check_top_k(top_k),
+            ]);
+            const prompt = this.create_prompt(messages);
+            const aws_signer = yield this.auth_headers(this.access_key, this.secret_key, model, this.region, prompt, max_tokens_to_sample, temperature, top_k, top_p, stop_sequences);
+            const result = yield axios_1.default.post(`https://bedrock-runtime.${this.region}.amazonaws.com/model/${model}/invoke`, aws_signer.body, {
+                headers: aws_signer.headers,
+            });
+            let msgs = messages;
+            msgs.push({
+                role: "system",
+                content: result.data["completion"],
+            });
+            return {
+                messages: msgs,
+                stop_reason: result.data["stop_reason"],
+            };
         });
-    }
-}
-class Chat {
-    constructor() { }
-    check_model() { }
-    check_max_tokens_to_sample() { }
-    check_temperature() { }
-    check_stop_sequences() { }
-    check_top_p() { }
-    check_top_k() { }
-    create() {
-        return __awaiter(this, void 0, void 0, function* () { });
     }
 }
