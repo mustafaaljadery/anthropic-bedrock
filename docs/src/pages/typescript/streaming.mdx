@@ -3,7 +3,7 @@
 Streaming is just an addition to the `Completion` endpoint. It supports streaming responses using Server Side Events (SSE).
 
 ```typescript
-const completion = await anthropic.Completion.crearte(
+const completion = await anthropic.Completion.create(
     model: "anthropic.claude-v2",
     prompt: "In one sentence, what is good about the color blue?",
     max_tokens_to_sample: 300,
@@ -23,7 +23,7 @@ const anthropic = new AnthropicBedrock({
 });
 
 async function main() {
-    const completion = await anthropic.Completion.crearte(
+    const completion = await anthropic.Completion.create(
         model: "anthropic.claude-v2",
         prompt: "In one sentence, what is good about the color blue?",
         max_tokens_to_sample: 300,
@@ -47,7 +47,7 @@ The configuration parameters are the exact same as completion, except the `strea
 The model that will complete your prompt. Refer to the models [page](/typescript/models).
 
 ```typescript {2}
-const completion = await anthropic.Completion.crearte(
+const completion = await anthropic.Completion.create(
     model: "anthropic.claude-v2",
     prompt: "In one sentence, what is good about the color blue?",
     max_tokens_to_sample: 300,
@@ -61,8 +61,8 @@ The prompt you want to use.
 
 - Type: `string`
 
-```typescript {3}
-const completion = await anthropic.Completion.crearte(
+```typescript copy {3}
+const completion = await anthropic.Completion.create(
     model: "anthropic.claude-v2",
     prompt: "In one sentence, what is good about the color blue?",
     max_tokens_to_sample: 300,
@@ -77,8 +77,8 @@ The maximum number of tokens to generate before stopping.
 - Default: `256`
 - Range depends on the model, refer to the [models page](/typescript/models).
 
-```typescript {4}
-const completion = await anthropic.Completion.crearte(
+```typescript copy {4}
+const completion = await anthropic.Completion.create(
     model: "anthropic.claude-v2",
     prompt: "In one sentence, what is good about the color blue?",
     max_tokens_to_sample: 300,
@@ -93,7 +93,7 @@ Sequences that will cause the model to stop generating completion text.
 - Default: `[]`
 
 ```typescript {5-7}
-const completion = await anthropic.Completion.crearte(
+const completion = await anthropic.Completion.create(
     model: "anthropic.claude-v2",
     prompt: "In one sentence, what is good about the color blue?",
     max_tokens_to_sample: 300,
@@ -112,7 +112,7 @@ Amount of randomness injected in the response.
 - Range: `0-1`
 
 ```typescript {5}
-const completion = await anthropic.Completion.crearte(
+const completion = await anthropic.Completion.create(
     model: "anthropic.claude-v2",
     prompt: "In one sentence, what is good about the color blue?",
     max_tokens_to_sample: 300,
@@ -129,7 +129,7 @@ Use nucleus sampling.
 - Range: `0-1`
 
 ```typescript {5}
-const completion = await anthropic.Completion.crearte(
+const completion = await anthropic.Completion.create(
     model: "anthropic.claude-v2",
     prompt: "In one sentence, what is good about the color blue?",
     max_tokens_to_sample: 300,
@@ -146,7 +146,7 @@ Only sample from the top K options for each subsequent token.
 - Range: `0-500`
 
 ```typescript {5}
-const completion = await anthropic.Completion.crearte(
+const completion = await anthropic.Completion.create(
     model: "anthropic.claude-v2",
     prompt: "In one sentence, what is good about the color blue?",
     max_tokens_to_sample: 300,

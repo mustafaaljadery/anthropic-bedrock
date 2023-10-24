@@ -3,7 +3,7 @@
 The `Completion` endpoint allows you to give a prompt to an Anthropic LLM and get a respnose.
 
 ```typescript
-const completion = await anthropic.Completion.crearte(
+const completion = await anthropic.Completion.create(
     model: "anthropic.claude-v2",
     prompt: "In one sentence, what is good about the color blue?",
     max_tokens_to_sample: 300
@@ -41,7 +41,7 @@ main();
 The model that will complete your prompt. Refer to the models [page](/typescript/models).
 
 ```typescript {2}
-const completion = await anthropic.Completion.crearte(
+const completion = await anthropic.Completion.create(
     model: "anthropic.claude-v2",
     prompt: "In one sentence, what is good about the color blue?",
     max_tokens_to_sample: 300
@@ -55,7 +55,7 @@ The prompt you want to use.
 - Type: `string`
 
 ```typescript {3}
-const completion = await anthropic.Completion.crearte(
+const completion = await anthropic.Completion.create(
     model: "anthropic.claude-v2",
     prompt: "In one sentence, what is good about the color blue?",
     max_tokens_to_sample: 300
@@ -70,7 +70,7 @@ The maximum number of tokens to generate before stopping.
 - Range depends on the model, refer to the [models page](/typescript/models).
 
 ```typescript {4}
-const completion = await anthropic.Completion.crearte(
+const completion = await anthropic.Completion.create(
     model: "anthropic.claude-v2",
     prompt: "In one sentence, what is good about the color blue?",
     max_tokens_to_sample: 300
@@ -84,7 +84,7 @@ Sequences that will cause the model to stop generating completion text.
 - Default: `[]`
 
 ```typescript {5-7}
-const completion = await anthropic.Completion.crearte(
+const completion = await anthropic.Completion.create(
     model: "anthropic.claude-v2",
     prompt: "In one sentence, what is good about the color blue?",
     max_tokens_to_sample: 300,
@@ -102,7 +102,7 @@ Amount of randomness injected in the response.
 - Range: `0-1`
 
 ```typescript {5}
-const completion = await anthropic.Completion.crearte(
+const completion = await anthropic.Completion.create(
     model: "anthropic.claude-v2",
     prompt: "In one sentence, what is good about the color blue?",
     max_tokens_to_sample: 300,
@@ -118,7 +118,7 @@ Use nucleus sampling.
 - Range: `0-1`
 
 ```typescript {5}
-const completion = await anthropic.Completion.crearte(
+const completion = await anthropic.Completion.create(
     model: "anthropic.claude-v2",
     prompt: "In one sentence, what is good about the color blue?",
     max_tokens_to_sample: 300,
@@ -134,7 +134,7 @@ Only sample from the top K options for each subsequent token.
 - Range: `0-500`
 
 ```typescript {5}
-const completion = await anthropic.Completion.crearte(
+const completion = await anthropic.Completion.create(
     model: "anthropic.claude-v2",
     prompt: "In one sentence, what is good about the color blue?",
     max_tokens_to_sample: 300,
