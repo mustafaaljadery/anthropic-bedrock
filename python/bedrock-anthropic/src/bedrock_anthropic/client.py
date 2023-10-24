@@ -22,6 +22,15 @@ class AnthropicBedrock():
         )
 
         session_kwargs = {"region_name": target_region}
+
+        if access_key or secret_key: 
+            if not access_key: 
+                raise ValueError("Please input an access key")
+            elif not secret_key: 
+                raise ValueError("Please input a secret key")
+            elif not region: 
+                raise ValueError("Please input a region")
+
         if access_key and secret_key: 
             session_kwargs = {"aws_access_key_id": access_key, "aws_secret_access_key": secret_key}
 

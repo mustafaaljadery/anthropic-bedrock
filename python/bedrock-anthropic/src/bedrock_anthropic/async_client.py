@@ -128,6 +128,6 @@ class Completion():
         accept = 'application/json'
         contentType = 'application/json'
 
-        response = self.bedrock_client.invoke_model(body=body, modelId=model, accept=accept, contentType=contentType)
+        response = await self.bedrock_client.invoke_model(body=body, modelId=model, accept=accept, contentType=contentType)
         response_body = json.loads(response.get('body').read())
         return response_body

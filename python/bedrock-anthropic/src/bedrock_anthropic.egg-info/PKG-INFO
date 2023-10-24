@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: bedrock-anthropic
-Version: 0.0.3
+Version: 0.0.4
 Summary: Client library for the anthropic API with the AWS Bedrock endpoint.
 Author-email: Mustafa Aljadery <aljadery@usc.edu>, Siddharth Sharma <sidshr@stanford.edu>
 License: Copyright 2023 Mustafa Aljadery, Siddharth Sharma.
@@ -13,7 +13,7 @@ License: Copyright 2023 Mustafa Aljadery, Siddharth Sharma.
         
 Project-URL: Homepage, https://github.com/mustafaaljadery/anthropic-bedrock
 Project-URL: Repository, https://github.com/mustafaaljadery/anthropic-bedrock
-Keywords: Anthropic,LLM,Bedrock,Claude
+Keywords: Anthropic,LLM,Bedrock,Claude,OpenAI,tiktoken,AWS Bedrock
 Classifier: Development Status :: 3 - Alpha
 Classifier: Operating System :: OS Independent
 Classifier: License :: OSI Approved :: MIT License

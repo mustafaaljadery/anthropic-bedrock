@@ -34,7 +34,7 @@ completion = anthropic.Completion.create(
     prompt="In one sentence, what is good about the color blue?",
 )
 
-print(completion.completion)
+print(completion["completion"])
 ```
 
 ## Typescript Overview
@@ -55,7 +55,7 @@ async function main() {
         prompt: "In one sentence, what is good about the color blue?"
     )
 
-    console.log(completion.completion)
+    console.log(completion["completion"])
 }
 
 main();
