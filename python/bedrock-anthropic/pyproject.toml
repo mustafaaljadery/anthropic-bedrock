@@ -14,13 +14,14 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
 ]
-keywords = ["Anthropic", 
-      "LLM", 
-      "Bedrock",
-      "Claude",
-      "OpenAI",
-      "tiktoken",
-      "AWS Bedrock"
+keywords = [
+    "Anthropic", 
+    "LLM", 
+    "Bedrock",
+    "Claude",
+    "OpenAI",
+    "tiktoken",
+    "AWS Bedrock"
 ]
 requires-python = ">= 3.7"
 dependencies = ["tokenizers", "boto3", "pathlib", "typing", "asyncio"]

@@ -50,7 +50,7 @@ const anthropic = new Anthropic({
 });
 
 async function main() {
-    const completion = await anthropic.Completion.crearte(
+    const completion = await anthropic.Completion.create(
         model: "anthropic.claude-v2",
         prompt: "In one sentence, what is good about the color blue?"
     )
