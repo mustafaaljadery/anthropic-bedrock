@@ -34,16 +34,9 @@ new AnthropicBedrock({
 By default requests timeout after a minute, however you can adjust the timeout option. This could be useful when maxing out the context length.
 
 ```typescript
-await anthropic.Completion.create(
-  {
-    prompt = "Why is the sky blue?",
-    max_tokens_to_sample: 300,
-    model: "anthropic.claude-v2",
-  },
-  {
-    timeout: 5 * 1000, // 5 seconds
-  }
-);
+new AnthropicBedrock({
+  timeout: 5 * 1000, // default is 60 * 1000 (60 secs)
+});
 ```
 
 ## Error Codes
