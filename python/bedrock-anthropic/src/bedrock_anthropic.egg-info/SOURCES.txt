@@ -9,3 +9,4 @@ src/bedrock_anthropic.egg-info/SOURCES.txt
 src/bedrock_anthropic.egg-info/dependency_links.txt
 src/bedrock_anthropic.egg-info/requires.txt
 src/bedrock_anthropic.egg-info/top_level.txt
+tests/test_client.py

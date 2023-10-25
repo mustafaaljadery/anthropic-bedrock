@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: bedrock-anthropic
-Version: 0.0.4
+Version: 0.0.5
 Summary: Client library for the anthropic API with the AWS Bedrock endpoint.
 Author-email: Mustafa Aljadery <aljadery@usc.edu>, Siddharth Sharma <sidshr@stanford.edu>
 License: Copyright 2023 Mustafa Aljadery, Siddharth Sharma.
@@ -25,6 +25,7 @@ Requires-Dist: tokenizers
 Requires-Dist: boto3
 Requires-Dist: pathlib
 Requires-Dist: typing
+Requires-Dist: asyncio
 
 # Anthropic Bedrock Python SDK
 
