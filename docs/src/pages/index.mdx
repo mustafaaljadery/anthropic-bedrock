@@ -27,6 +27,10 @@ import { Cards, Card } from "nextra/components";
   </a>
 </div>
 
+Building using AWS Bedrock is an exercise left to the reader. It's very difficult to get AWS Bedrock to work. Our goal with this SDK is to change this.
+
+This SDK handles all of the AWS auth for you (the difficult part), and provides a `Completion` and `ChatCompletion` functions to interact with Claude. There are a couple other helper functions as well for a better LLM developer experience.
+
 There are two SDKs, one for Python and the other for NodeJS. The goal is to make it extremely easy to build using Anthropic's models. Anthropic's models have amazing features not available in other models, an example is the 100k context length. You can upload an entire book to Claude and chat with it.
 
 <Cards className="flex flex-row pt-8 w-full">
