@@ -29,7 +29,10 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "@types/jest": "^29.5.6",
     "@types/node": "^20.8.8",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
     "typescript": "^5.2.2"
   },
   "dependencies": {
@@ -38,7 +41,8 @@
     "@aws-sdk/protocol-http": "^3.374.0",
     "@aws-sdk/signature-v4": "^3.374.0",
     "@dqbd/tiktoken": "^1.0.7",
-    "tiktoken": "^1.0.10",
-    "axios": "^1.5.1"
+    "axios": "^1.5.1",
+    "axios-retry": "^3.8.0",
+    "tiktoken": "^1.0.10"
   }
 }

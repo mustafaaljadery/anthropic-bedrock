@@ -5,6 +5,8 @@ import axios from "axios";
 import { Credentials } from "@aws-sdk/types";
 import { Tiktoken } from "tiktoken/lite";
 import claude from "./claude.json";
+import { fromNodeProviderChain } from "@aws-sdk/credential-providers";
+import axiosRetry from "axios-retry";
 
 interface MessageProps {
   role: string;
@@ -19,6 +21,7 @@ interface ChatCreateProps {
   top_p?: number;
   top_k?: number;
   stop_sequences?: string[];
+  stream?: boolean;
 }
 
 interface CompletionCreateProps {
@@ -29,21 +32,42 @@ interface CompletionCreateProps {
   top_p?: number;
   top_k?: number;
   stop_sequences?: string[];
+  stream?: boolean;
 }
 
 interface AnthropicBedrockProps {
-  access_key: string;
-  secret_key: string;
-  region: string;
+  access_key?: string;
+  secret_key?: string;
+  region?: string;
+  maxRetries?: number;
+  timeout?: number;
 }
 
 export class AnthropicBedrock {
   public Completion: Completion;
   public ChatCompletion: Chat;
 
-  constructor({ access_key, secret_key, region }: AnthropicBedrockProps) {
-    this.Completion = new Completion(access_key, secret_key, region);
-    this.ChatCompletion = new Chat(access_key, secret_key, region);
+  constructor({
+    access_key,
+    secret_key,
+    region,
+    maxRetries = 2,
+    timeout = 60 * 1000,
+  }: AnthropicBedrockProps) {
+    this.Completion = new Completion(
+      access_key,
+      secret_key,
+      region,
+      maxRetries,
+      timeout
+    );
+    this.ChatCompletion = new Chat(
+      access_key,
+      secret_key,
+      region,
+      maxRetries,
+      timeout
+    );
   }
 
   public countTokens(text: string) {
@@ -59,36 +83,62 @@ export class AnthropicBedrock {
 }
 
 class Completion {
-  private access_key: string;
-  private secret_key: string;
-  private region: string;
+  private access_key: string | undefined;
+  private secret_key: string | undefined;
+  private region: string | undefined;
+  private axiosInstance;
 
-  constructor(access_key: string, secret_key: string, region: string) {
+  constructor(
+    access_key: string | undefined,
+    secret_key: string | undefined,
+    region: string | undefined,
+    retries: number,
+    timeout: number
+  ) {
     this.access_key = access_key;
     this.secret_key = secret_key;
-    this.region = region;
+    this.region = region || "us-east-1";
+
+    this.axiosInstance = axios.create({
+      baseURL: `https://bedrock-runtime.${this.region}.amazonaws.com/model/`,
+      timeout: timeout,
+    });
+
+    axiosRetry(this.axiosInstance, {
+      retries: retries,
+      retryDelay: axiosRetry.exponentialDelay,
+      retryCondition: (error) => {
+        return axiosRetry.isNetworkError(error);
+      },
+    });
   }
 
   private async auth_headers(
-    access_key: string,
-    secret_key: string,
+    access_key: string | undefined,
+    secret_key: string | undefined,
     model: string,
-    region: string,
+    region: string | undefined,
     prompt: string,
     max_tokens_to_sample: number,
     temperature: number,
     top_k: number,
     top_p: number,
-    stop_sequences: string[]
+    stop_sequences: string[],
+    stream: boolean
   ) {
-    const credentials: Credentials = {
-      accessKeyId: access_key,
-      secretAccessKey: secret_key,
-    };
+    let credentials: Credentials | any;
+    if (!access_key || !secret_key) {
+      credentials = fromNodeProviderChain();
+    } else {
+      credentials = {
+        accessKeyId: access_key,
+        secretAccessKey: secret_key,
+      };
+    }
 
     const signer = new SignatureV4({
       service: "bedrock",
-      region: region,
+      region: region || "us-east-1",
       credentials: credentials,
       sha256: Sha256,
     });
@@ -101,7 +151,9 @@ class Completion {
 
     const request = new HttpRequest({
       method: "POST",
-      path: `/model/${model}/invoke`,
+      path: stream
+        ? `/model/${model}/invoke-with-response-stream`
+        : `/model/${model}/invoke`,
       hostname: `bedrock-runtime.${region}.amazonaws.com`,
       headers,
       body: JSON.stringify({
@@ -164,7 +216,7 @@ class Completion {
   private create_prompt(prompt: string) {
     let text = `\n\nHuman: ${prompt}
 
-    \nAssistant: `;
+    \n\nAssistant: `;
     return text;
   }
 
@@ -176,6 +228,7 @@ class Completion {
     top_p = 1,
     top_k = 250,
     stop_sequences = [],
+    stream = false,
   }: CompletionCreateProps) {
     Promise.all([
       this.check_model(model),
@@ -197,37 +250,70 @@ class Completion {
       temperature,
       top_k,
       top_p,
-      stop_sequences
+      stop_sequences,
+      stream
     );
 
-    const result = await axios.post(
-      `https://bedrock-runtime.${this.region}.amazonaws.com/model/${model}/invoke`,
-      aws_signer.body,
-      {
-        headers: aws_signer.headers,
-      }
-    );
+    if (stream) {
+      const response = await this.axiosInstance.post(
+        `${model}/invoke-with-response-stream`,
+        aws_signer.body,
+        {
+          responseType: "stream",
+          headers: aws_signer.headers,
+        }
+      );
 
-    return result.data;
+      return response.data;
+    } else {
+      const result = await this.axiosInstance.post(
+        `${model}/invoke`,
+        aws_signer.body,
+        {
+          headers: aws_signer.headers,
+        }
+      );
+      return result.data;
+    }
   }
 }
 
 class Chat {
-  private access_key: string;
-  private secret_key: string;
-  private region: string;
+  private access_key: string | undefined;
+  private secret_key: string | undefined;
+  private region: string | undefined;
+  private axiosInstance;
 
-  constructor(access_key: string, secret_key: string, region: string) {
+  constructor(
+    access_key: string | undefined,
+    secret_key: string | undefined,
+    region: string | undefined,
+    retries: number,
+    timeout: number
+  ) {
     this.access_key = access_key;
     this.secret_key = secret_key;
     this.region = region;
+
+    this.axiosInstance = axios.create({
+      baseURL: `https://bedrock-runtime.${this.region}.amazonaws.com/model/`,
+      timeout: timeout,
+    });
+
+    axiosRetry(this.axiosInstance, {
+      retries: retries,
+      retryDelay: axiosRetry.exponentialDelay,
+      retryCondition: (error) => {
+        return axiosRetry.isNetworkError(error);
+      },
+    });
   }
 
   private async auth_headers(
-    access_key: string,
-    secret_key: string,
+    access_key: string | undefined,
+    secret_key: string | undefined,
     model: string,
-    region: string,
+    region: string | undefined,
     prompt: string,
     max_tokens_to_sample: number,
     temperature: number,
@@ -235,14 +321,19 @@ class Chat {
     top_p: number,
     stop_sequences: string[]
   ) {
-    const credentials: Credentials = {
-      accessKeyId: access_key,
-      secretAccessKey: secret_key,
-    };
+    let credentials: Credentials | any;
+    if (!access_key || !secret_key) {
+      credentials = fromNodeProviderChain();
+    } else {
+      credentials = {
+        accessKeyId: access_key,
+        secretAccessKey: secret_key,
+      };
+    }
 
     const signer = new SignatureV4({
       service: "bedrock",
-      region: region,
+      region: region || "us-east-1",
       credentials: credentials,
       sha256: Sha256,
     });
@@ -341,6 +432,7 @@ class Chat {
     top_p = 1,
     top_k = 250,
     stop_sequences = [],
+    stream = false,
   }: ChatCreateProps) {
     Promise.all([
       this.check_model(model),
@@ -365,8 +457,8 @@ class Chat {
       stop_sequences
     );
 
-    const result = await axios.post(
-      `https://bedrock-runtime.${this.region}.amazonaws.com/model/${model}/invoke`,
+    const result = await this.axiosInstance.post(
+      `${model}/invoke`,
       aws_signer.body,
       {
         headers: aws_signer.headers,
