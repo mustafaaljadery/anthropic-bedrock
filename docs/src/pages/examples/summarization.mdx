@@ -116,11 +116,11 @@ An example of using the `Completion` endpoint to summarize text.
     `
 
     async function main(){
-        const completion = await anthropic.Completion.create(
+        const completion = await anthropic.Completion.create({
             model: "anthropic.claude-v2",
             prompt: prompt,
             max_tokens_to_sample: 1000
-        )
+        })
 
         console.log(completion["completion"]);
     }
