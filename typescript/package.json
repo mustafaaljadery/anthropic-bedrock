@@ -1,6 +1,6 @@
 {
   "name": "anthropic-bedrock",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Anthropic/AWS Bedrock Typescript SDK.",
   "main": "dist/index.js",
   "scripts": {
