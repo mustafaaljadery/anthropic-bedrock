@@ -21,6 +21,7 @@ export default {
             "Anthropic Bedrock are SDKs for Anthropic's models on AWS Bedrock"
           }
         />
+        <meta name="image" content="/homepage.png" />
       </>
     );
   },
