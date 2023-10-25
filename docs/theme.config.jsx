@@ -1,30 +1,5 @@
 export default {
   darkMode: false,
-  head: () => {
-    const { asPath, defaultLocale, locale } = useRouter();
-    const { frontMatter } = useConfig();
-    const url =
-      "https://my-app.com" +
-      (defaultLocale === locale ? asPath : `/${locale}${asPath}`);
-
-    return (
-      <>
-        <meta property="og:url" content={url} />
-        <meta
-          property="og:title"
-          content={frontMatter.title || "Anthropic Bedrock"}
-        />
-        <meta
-          property="og:description"
-          content={
-            frontMatter.description ||
-            "Anthropic Bedrock are SDKs for Anthropic's models on AWS Bedrock"
-          }
-        />
-        <meta name="image" content="/homepage.png" />
-      </>
-    );
-  },
   logo: (
     <svg
       width="143"
