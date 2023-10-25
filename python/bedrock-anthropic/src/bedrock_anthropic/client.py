@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import cast
 
 class AnthropicBedrock():
-    def __init__(self, region = None, access_key = None, secret_key = None, profile = None, assumed_role = None):
+    def __init__(self, region = None, access_key = None, secret_key = None, profile = None, assumed_role = None, max_retries=10):
         if region is None:
             target_region = os.environ.get("AWS_REGION", os.environ.get("AWS_DEFAULT_REGION"))
         else: 
@@ -16,7 +16,7 @@ class AnthropicBedrock():
         retry_config = Config(
             region_name=target_region,
             retries={
-                "max_attempts": 10,
+                "max_attempts": max_retries,
                 "mode": "standard",
             },
         )
@@ -170,7 +170,6 @@ class Completion():
             response = self.bedrock_client.invoke_model(body=body, modelId=model, accept=accept, contentType=contentType)
             response_body = json.loads(response.get('body').read())
             return response_body
-
 
 class Chat():
     def __init__(self, bedrock_client):
