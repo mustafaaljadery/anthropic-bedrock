@@ -103,7 +103,7 @@ class Completion {
     check_model(model) {
         if (model != "anthropic.claude-v1" &&
             model != "anthropic.claude-v2" &&
-            model != "anthropic.claude-v2.1" &&
+            model != "anthropic.claude-v2:1" &&
             model != "anthropic.claude-instant-v1") {
             throw Error(`Model ${model} not found.`);
         }
@@ -237,7 +237,7 @@ class Chat {
     check_model(model) {
         if (model != "anthropic.claude-v1" &&
             model != "anthropic.claude-v2" &&
-            model != "anthropic.claude-v2.1" &&
+            model != "anthropic.claude-v2:1" &&
             model != "anthropic.claude-instant-v1") {
             throw Error(`Model ${model} not found.`);
         }
