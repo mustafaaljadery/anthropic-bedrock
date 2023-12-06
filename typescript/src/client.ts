@@ -181,6 +181,7 @@ class Completion {
     if (
       model != "anthropic.claude-v1" &&
       model != "anthropic.claude-v2" &&
+      model != "anthropic.claude-v2:1" &&
       model != "anthropic.claude-instant-v1"
     ) {
       throw Error(`Model ${model} not found.`);
@@ -374,6 +375,7 @@ class Chat {
     if (
       model != "anthropic.claude-v1" &&
       model != "anthropic.claude-v2" &&
+      model != "anthropic.claude-v2:1" &&
       model != "anthropic.claude-instant-v1"
     ) {
       throw Error(`Model ${model} not found.`);
