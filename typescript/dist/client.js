@@ -17,7 +17,7 @@ const signature_v4_1 = require("@aws-sdk/signature-v4");
 const protocol_http_1 = require("@aws-sdk/protocol-http");
 const sha256_js_1 = require("@aws-crypto/sha256-js");
 const axios_1 = __importDefault(require("axios"));
-const lite_1 = require("tiktoken/lite");
+const js_tiktoken_1 = require("js-tiktoken");
 const claude_json_1 = __importDefault(require("./claude.json"));
 const credential_providers_1 = require("@aws-sdk/credential-providers");
 const axios_retry_1 = __importDefault(require("axios-retry"));
@@ -27,9 +27,12 @@ class AnthropicBedrock {
         this.ChatCompletion = new Chat(access_key, secret_key, region, maxRetries, timeout);
     }
     countTokens(text) {
-        const tokenizer = new lite_1.Tiktoken(claude_json_1.default.bpe_ranks, claude_json_1.default.special_tokens, claude_json_1.default.pat_str);
-        const encoded = tokenizer.encode(text.normalize("NFKC"), "all");
-        tokenizer.free();
+        const tokenizer = new js_tiktoken_1.Tiktoken({
+            bpe_ranks: claude_json_1.default.bpe_ranks,
+            special_tokens: claude_json_1.default.special_tokens,
+            pat_str: claude_json_1.default.pat_str,
+        });
+        const encoded = tokenizer.encode(text.normalize('NFKC'), 'all');
         return encoded.length;
     }
 }
