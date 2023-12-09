@@ -43,6 +43,6 @@
     "@dqbd/tiktoken": "^1.0.7",
     "axios": "^1.5.1",
     "axios-retry": "^3.8.0",
-    "tiktoken": "^1.0.10"
+    "js-tiktoken": "^1.0.8"
   }
 }

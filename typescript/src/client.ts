@@ -3,7 +3,7 @@ import { HttpRequest } from "@aws-sdk/protocol-http";
 import { Sha256 } from "@aws-crypto/sha256-js";
 import axios from "axios";
 import { Credentials } from "@aws-sdk/types";
-import { Tiktoken } from "tiktoken/lite";
+import { Tiktoken, TiktokenBPE } from 'js-tiktoken'
 import claude from "./claude.json";
 import { fromNodeProviderChain } from "@aws-sdk/credential-providers";
 import axiosRetry from "axios-retry";
@@ -71,14 +71,13 @@ export class AnthropicBedrock {
   }
 
   public countTokens(text: string) {
-    const tokenizer = new Tiktoken(
-      claude.bpe_ranks,
-      claude.special_tokens,
-      claude.pat_str
-    );
-    const encoded = tokenizer.encode(text.normalize("NFKC"), "all");
-    tokenizer.free();
-    return encoded.length;
+    const tokenizer = new Tiktoken({
+      bpe_ranks: claude.bpe_ranks,
+      special_tokens: claude.special_tokens,
+      pat_str: claude.pat_str,
+    } as TiktokenBPE);
+    const encoded = tokenizer.encode(text.normalize('NFKC'), 'all')
+    return encoded.length
   }
 }
 
