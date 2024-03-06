@@ -1,9 +1,9 @@
-import { SignatureV4 } from "@aws-sdk/signature-v4";
-import { HttpRequest } from "@aws-sdk/protocol-http";
+import { SignatureV4 } from "@smithy/signature-v4";
+import { HttpRequest } from "@smithy/protocol-http";
 import { Sha256 } from "@aws-crypto/sha256-js";
 import axios from "axios";
 import { Credentials } from "@aws-sdk/types";
-import { Tiktoken } from "tiktoken/lite";
+import { Tiktoken, TiktokenBPE } from 'js-tiktoken'
 import claude from "./claude.json";
 import { fromNodeProviderChain } from "@aws-sdk/credential-providers";
 import axiosRetry from "axios-retry";
@@ -71,14 +71,13 @@ export class AnthropicBedrock {
   }
 
   public countTokens(text: string) {
-    const tokenizer = new Tiktoken(
-      claude.bpe_ranks,
-      claude.special_tokens,
-      claude.pat_str
-    );
-    const encoded = tokenizer.encode(text.normalize("NFKC"), "all");
-    tokenizer.free();
-    return encoded.length;
+    const tokenizer = new Tiktoken({
+      bpe_ranks: claude.bpe_ranks,
+      special_tokens: claude.special_tokens,
+      pat_str: claude.pat_str,
+    } as TiktokenBPE);
+    const encoded = tokenizer.encode(text.normalize('NFKC'), 'all')
+    return encoded.length
   }
 }
 
@@ -182,6 +181,7 @@ class Completion {
       model != "anthropic.claude-v1" &&
       model != "anthropic.claude-v2" &&
       model != "anthropic.claude-v2:1" &&
+      model != "anthropic.claude-3-sonnet-20240229-v1:0" &&
       model != "anthropic.claude-instant-v1"
     ) {
       throw Error(`Model ${model} not found.`);
@@ -376,6 +376,7 @@ class Chat {
       model != "anthropic.claude-v1" &&
       model != "anthropic.claude-v2" &&
       model != "anthropic.claude-v2:1" &&
+      model != "anthropic.claude-3-sonnet-20240229-v1:0" &&      
       model != "anthropic.claude-instant-v1"
     ) {
       throw Error(`Model ${model} not found.`);

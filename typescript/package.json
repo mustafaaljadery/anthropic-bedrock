@@ -1,6 +1,6 @@
 {
   "name": "anthropic-bedrock",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "Anthropic/AWS Bedrock Typescript SDK.",
   "main": "dist/index.js",
   "scripts": {
@@ -41,8 +41,10 @@
     "@aws-sdk/protocol-http": "^3.374.0",
     "@aws-sdk/signature-v4": "^3.374.0",
     "@dqbd/tiktoken": "^1.0.7",
+    "@smithy/protocol-http": "^3.0.11",
+    "@smithy/signature-v4": "^2.0.17",
     "axios": "^1.5.1",
     "axios-retry": "^3.8.0",
-    "tiktoken": "^1.0.10"
+    "js-tiktoken": "^1.0.8"
   }
 }

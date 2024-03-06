@@ -13,11 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AnthropicBedrock = void 0;
-const signature_v4_1 = require("@aws-sdk/signature-v4");
-const protocol_http_1 = require("@aws-sdk/protocol-http");
+const signature_v4_1 = require("@smithy/signature-v4");
+const protocol_http_1 = require("@smithy/protocol-http");
 const sha256_js_1 = require("@aws-crypto/sha256-js");
 const axios_1 = __importDefault(require("axios"));
-const lite_1 = require("tiktoken/lite");
+const js_tiktoken_1 = require("js-tiktoken");
 const claude_json_1 = __importDefault(require("./claude.json"));
 const credential_providers_1 = require("@aws-sdk/credential-providers");
 const axios_retry_1 = __importDefault(require("axios-retry"));
@@ -27,9 +27,12 @@ class AnthropicBedrock {
         this.ChatCompletion = new Chat(access_key, secret_key, region, maxRetries, timeout);
     }
     countTokens(text) {
-        const tokenizer = new lite_1.Tiktoken(claude_json_1.default.bpe_ranks, claude_json_1.default.special_tokens, claude_json_1.default.pat_str);
-        const encoded = tokenizer.encode(text.normalize("NFKC"), "all");
-        tokenizer.free();
+        const tokenizer = new js_tiktoken_1.Tiktoken({
+            bpe_ranks: claude_json_1.default.bpe_ranks,
+            special_tokens: claude_json_1.default.special_tokens,
+            pat_str: claude_json_1.default.pat_str,
+        });
+        const encoded = tokenizer.encode(text.normalize('NFKC'), 'all');
         return encoded.length;
     }
 }
@@ -104,6 +107,7 @@ class Completion {
         if (model != "anthropic.claude-v1" &&
             model != "anthropic.claude-v2" &&
             model != "anthropic.claude-v2:1" &&
+            model != "anthropic.claude-3-sonnet-20240229-v1:0" &&
             model != "anthropic.claude-instant-v1") {
             throw Error(`Model ${model} not found.`);
         }
@@ -238,6 +242,7 @@ class Chat {
         if (model != "anthropic.claude-v1" &&
             model != "anthropic.claude-v2" &&
             model != "anthropic.claude-v2:1" &&
+            model != "anthropic.claude-3-sonnet-20240229-v1:0" &&
             model != "anthropic.claude-instant-v1") {
             throw Error(`Model ${model} not found.`);
         }
